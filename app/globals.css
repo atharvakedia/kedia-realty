@@ -1,26 +1,84 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-navy: #063b68;
+  --deep-navy: #042b4c;
+  --architectural-black: #050505;
+  --white: #ffffff;
+  --soft-white: #f7f8fa;
+  --cool-mist: #eef2f5;
+  --slate-gray: #667085;
+  --charcoal-text: #1a1d21;
+  --border-gray: #d9dee4;
+  --steel-blue: #2f6f9f;
+  --silver-shadow: #aab4be;
+  --warm-sand: #c8a96a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--soft-white);
+  --color-foreground: var(--charcoal-text);
+  --color-primary-navy: var(--primary-navy);
+  --color-deep-navy: var(--deep-navy);
+  --color-architectural-black: var(--architectural-black);
+  --color-white: var(--white);
+  --color-soft-white: var(--soft-white);
+  --color-cool-mist: var(--cool-mist);
+  --color-slate-gray: var(--slate-gray);
+  --color-charcoal-text: var(--charcoal-text);
+  --color-border-gray: var(--border-gray);
+  --color-steel-blue: var(--steel-blue);
+  --color-silver-shadow: var(--silver-shadow);
+  --color-warm-sand: var(--warm-sand);
+  --color-ivory: var(--white);
+  --color-warm: var(--cool-mist);
+  --color-charcoal: var(--charcoal-text);
+  --color-stone: var(--slate-gray);
+  --color-bronze: var(--primary-navy);
+  --color-paper: var(--white);
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--soft-white);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary-navy) 22%, transparent);
+  color: var(--charcoal-text);
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+@keyframes amenity-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
