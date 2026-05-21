@@ -20,7 +20,9 @@ export function SiteChrome({ children }: SiteChromeProps) {
   return (
     <>
       <Navbar />
-      <main className="flex-1 pt-28">{children}</main>
+      <main className={isAdminRoute || pathname === "/" ? "flex-1" : "flex-1 pt-28"}>
+        {children}
+      </main>
       <Footer />
     </>
   );

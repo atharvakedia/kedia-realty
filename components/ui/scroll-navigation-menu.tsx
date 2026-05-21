@@ -54,6 +54,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
   className = "",
 }) => {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [hoveredItem, setHoveredItem] = React.useState<number | null>(null);
@@ -121,17 +122,17 @@ export const Component: React.FC<ScrollNavbarProps> = ({
       <motion.nav
         initial={{ y: 0, opacity: 1 }}
         animate={{
-          y: isScrolled ? -120 : 0,
+          y: isScrolled ? -110 : 0,
           opacity: isScrolled ? 0 : 1,
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b border-border-gray bg-white/92 backdrop-blur-md",
+          "fixed inset-x-0 top-0 z-50 px-5 py-5 md:px-8 lg:px-12",
           className,
         )}
       >
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <div className="flex h-28 items-center justify-between">
+        <div className="mx-auto flex max-w-[112rem] items-center justify-between">
+          <div className="flex min-w-0 flex-1 items-center">
             <motion.div
               className="shrink-0"
               whileHover={{ scale: 1.03 }}
@@ -139,18 +140,25 @@ export const Component: React.FC<ScrollNavbarProps> = ({
             >
               <Link href="/" className="block" aria-label="Kedia Group home">
                 <Image
-                  src="/kedia-logo-cropped.png"
+                  src={
+                    isHome
+                      ? "/kedia-logo-white-transparent.png"
+                      : "/kedia-logo-transparent.png"
+                  }
                   alt="Kedia Group"
-                  width={220}
-                  height={98}
+                  width={260}
+                  height={147}
                   priority
-                  className="h-20 w-auto object-contain md:h-24"
+                  className={cn(
+                    "h-12 w-auto object-contain md:h-14",
+                    isHome && "brightness-0 invert",
+                  )}
                 />
               </Link>
             </motion.div>
 
-            <div className="hidden lg:block">
-              <div className="ml-10 flex items-center gap-7">
+            <div className="hidden flex-1 justify-center lg:flex">
+              <div className="flex items-center gap-9">
                 {menuItems.map((item) => {
                   const active =
                     item.url === "/" ? pathname === item.url : pathname.startsWith(item.url);
@@ -167,8 +175,11 @@ export const Component: React.FC<ScrollNavbarProps> = ({
                       <Link
                         href={item.url}
                         className={cn(
-                          "relative flex items-center px-1 py-3 text-[0.86rem] font-semibold uppercase tracking-[0.22em] text-slate-gray transition-colors hover:text-primary-navy",
-                          active && "text-primary-navy",
+                          "relative flex items-center px-1 py-3 text-base font-medium tracking-[-0.01em] transition-colors",
+                          isHome
+                            ? "text-white/88 hover:text-white"
+                            : "text-charcoal-text hover:text-primary-navy",
+                          active && (isHome ? "text-white" : "text-primary-navy"),
                         )}
                       >
                         <span>{item.title}</span>
@@ -177,7 +188,10 @@ export const Component: React.FC<ScrollNavbarProps> = ({
                         {hoveredItem === item.id ? (
                           <motion.div
                             layoutId="navbar-hover"
-                            className="absolute inset-x-1 bottom-1 -z-10 h-px bg-primary-navy/45"
+                            className={cn(
+                              "absolute inset-x-1 bottom-1 -z-10 h-px",
+                              isHome ? "bg-white/65" : "bg-primary-navy/45",
+                            )}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -189,20 +203,25 @@ export const Component: React.FC<ScrollNavbarProps> = ({
                 })}
               </div>
             </div>
+          </div>
 
-            <div className="lg:hidden">
-              <motion.button
-                type="button"
-                onClick={toggleMenu}
-                className="flex size-11 items-center justify-center rounded-full border border-border-gray text-primary-navy"
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.92 }}
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMenuOpen}
-              >
-                <MenuToggleIcon open={isMenuOpen} className="size-6" duration={500} />
-              </motion.button>
-            </div>
+          <div className="lg:hidden">
+            <motion.button
+              type="button"
+              onClick={toggleMenu}
+              className={cn(
+                "flex size-11 items-center justify-center rounded-full border",
+                isHome
+                  ? "border-white/40 text-white"
+                  : "border-border-gray text-primary-navy",
+              )}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+            >
+              <MenuToggleIcon open={isMenuOpen} className="size-6" duration={500} />
+            </motion.button>
           </div>
         </div>
       </motion.nav>
