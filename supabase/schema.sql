@@ -107,8 +107,8 @@ create table public.career_applications (
   candidate_name text not null,
   email text not null,
   phone text not null,
-  city text not null,
-  experience text not null,
+  city text not null default 'Not provided',
+  experience text not null default 'Not provided',
   expected_salary text,
   resume_url text not null,
   portfolio_url text,
@@ -168,8 +168,8 @@ create index project_images_project_order_idx
   on public.project_images (project_id, is_cover desc, display_order);
 create index project_layouts_project_order_idx
   on public.project_layouts (project_id, display_order);
-create index career_roles_open_order_idx
-  on public.career_roles (is_open, display_order, updated_at desc);
+create index career_roles_open_created_idx
+  on public.career_roles (is_open, created_at desc);
 create index career_roles_slug_idx on public.career_roles (slug);
 create index career_applications_created_idx
   on public.career_applications (created_at desc);
