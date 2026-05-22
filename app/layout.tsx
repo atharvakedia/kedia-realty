@@ -6,7 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kedia Group | Premium Real Estate Advisory",
+    default: "Kedia Group",
     template: "%s | Kedia Group",
   },
   description:
