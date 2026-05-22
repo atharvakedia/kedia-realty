@@ -26,11 +26,11 @@ export default function ContactPage() {
             </p>
             <p>
               <span className="block text-slate-gray">Phone</span>
-              +1 310 555 0184
+              +91 9950158468
             </p>
             <p>
               <span className="block text-slate-gray">Office</span>
-              Beverly Hills, California
+              B2/12, Gandhi Path Rd, Vaishali Nagar, Jaipur, Rajasthan 302013, India
             </p>
           </div>
         </div>

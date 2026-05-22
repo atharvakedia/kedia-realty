@@ -428,7 +428,7 @@ export const careers: Career[] = [
 ];
 
 export const stats = [
-  { value: "250+", label: "Acres planned across development formats" },
-  { value: "6", label: "Project categories across residential and commercial use" },
-  { value: "30+", label: "Years of trust-led real estate development" },
+  { value: "250+", label: "Bighas planned across development formats" },
+  { value: "200+", label: "Projects across residential and commercial use" },
+  { value: "40+", label: "Years of trust-led real estate development" },
 ];

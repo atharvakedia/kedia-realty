@@ -21,7 +21,7 @@ export function ContactPreview() {
           </p>
           <div className="mt-8 grid gap-3 text-sm text-charcoal-text">
             <p>hello@kediarealty.com</p>
-            <p>+1 310 555 0184</p>
+            <p>+91 9950158468</p>
           </div>
           <Button href="/contact" variant="secondary" className="mt-8">
             Contact the team

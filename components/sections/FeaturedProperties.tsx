@@ -14,7 +14,7 @@ export async function FeaturedProperties() {
           <SectionHeading
             eyebrow="Featured projects"
             title="Planned developments shaped for long-term value."
-            body="Explore Kedia Group projects across townships, apartments, villas, commercial spaces, farm developments, and industrial land formats."
+            body="Explore our newest and most distinguished projects, developed with thoughtful planning, prime locations, and a commitment to lasting real estate value."
           />
           <Button href="/properties" variant="text" className="self-start">
             View all projects

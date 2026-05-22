@@ -8,8 +8,8 @@ const heroImage =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2200&h=1400&fit=crop&crop=entropy&auto=format&q=84";
 
 const rotatingWords = [
+  "Values",
   "Homes",
-  "Value",
   "Community",
   "Trust",
   "Foundations",
@@ -40,7 +40,7 @@ function HeroWordCarousel({ reduceMotion }: { reduceMotion: boolean }) {
 
     const timeout = window.setTimeout(() => {
       setWordIndex((current) => Math.min(current + 1, rotatingWords.length - 1));
-    }, wordIndex === 0 ? 3000 : 2800);
+    }, wordIndex === 0 ? 2000 : 2000);
 
     return () => window.clearTimeout(timeout);
   }, [isTabVisible, reduceMotion, wordIndex]);

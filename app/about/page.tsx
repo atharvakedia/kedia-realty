@@ -24,13 +24,11 @@ export default function AboutPage() {
               About Kedia Group
             </p>
             <h1 className="mt-5 font-display text-5xl leading-[0.98] text-charcoal-text md:text-7xl">
-              Measured advice for consequential real estate decisions.
+              Rooted in trust. Built for generations.
             </h1>
           </div>
           <p className="max-w-2xl text-base leading-8 text-slate-gray md:text-lg">
-            Kedia Group represents clients across premium residential markets
-            with a process shaped by discretion, research, and a deep respect for
-            the long-term value of place.
+            For generations, Kedia Group has shaped real estate with a simple belief: Every project should create lasting value for the families, businesses, and communities it serves.
           </p>
         </div>
       </section>
@@ -53,18 +51,18 @@ export default function AboutPage() {
       <AnimatedSection className="bg-cool-mist px-5 py-20 md:px-8 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           <SectionHeading
-            eyebrow="Our standard"
-            title="The strongest outcomes come from discipline before exposure."
+            eyebrow="Our values"
+            title="A legacy of honour, shaped by community."
           />
           <div className="grid gap-8 text-base leading-8 text-slate-gray md:grid-cols-2">
             <p>
-              We study the project, buyer demand, timing, and the competitive
-              set before recommending a path. That work shapes how each
-              development is positioned, presented, negotiated, and protected.
+              To our team, real estate is not only about land, buildings, or transactions.
+              It is about the people who place their trust in us, the communities our projects
+              become part of, and the culture and heritage that shape the places we build.
             </p>
             <p>
-              Our clients receive direct counsel, polished presentation, and
-              calm operational control across every stage of the process.
+              Our work is rooted in respect for Rajasthan’s culture, heritage, and sense of place. We aim to build
+              in a way that feels modern while remaining connected to the values and identity of the region.
             </p>
           </div>
         </div>

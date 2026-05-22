@@ -17,10 +17,10 @@ export function Footer() {
               className="h-auto w-40 object-contain md:w-52"
             />
           </Link>
-          <p className="mt-5 max-w-sm text-sm leading-7 text-white/72">
+          {/* <p className="mt-5 max-w-sm text-sm leading-7 text-white/72">
             Premium real estate developer projects across residential,
             commercial, farm, and industrial formats.
-          </p>
+          </p> */}
         </div>
         <div>
           <h2 className="text-xs font-semibold uppercase tracking-[0.24em] text-silver-shadow">
@@ -43,11 +43,12 @@ export function Footer() {
             Contact
           </h2>
           <address className="mt-5 not-italic text-sm leading-7 text-white/72">
-            Beverly Hills, California
+            B2/12, Gandhi Path Rd, Vaishali Nagar, Jaipur, Rajasthan 302013, India
+            <br />
             <br />
             hello@kediarealty.com
             <br />
-            +1 310 555 0184
+            +91 9950158468
           </address>
         </div>
       </div>

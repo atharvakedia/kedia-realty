@@ -13,67 +13,67 @@ type Testimonial = {
 
 const testimonials: Testimonial[] = [
   {
-    text: "Kedia Group understood the property, the timing, and the nuance of the market. The process felt measured from start to finish.",
+    text: "Kedia Group gave us a clear picture of the project, the location, and the long-term value. The whole process felt transparent and well guided.",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Anika Rao",
-    role: "Seller, Beverly Hills",
+    name: "Ritika Sharma",
+    role: "Mansarovar Extension",
   },
   {
-    text: "They brought discipline to a very emotional purchase and helped us see value beyond the obvious surface details.",
+    text: "We were comparing plotted developments around Ajmer Road, and their team helped us understand the details that actually matter before booking.",
     image:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Maya Mehta",
-    role: "Buyer, Montecito",
+    name: "Amit Goyal",
+    role: "Ajmer Road",
   },
   {
-    text: "The presentation was elegant, but the real difference was the negotiation strategy behind it.",
+    text: "The team was patient with every question, from RERA details to layout plans. That gave our family a lot of confidence in the decision.",
     image:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Julian Hart",
-    role: "Investor, San Francisco",
+    name: "Sanjay Bhandari",
+    role: "Jagatpura",
   },
   {
-    text: "Every recommendation was specific to the project. Nothing felt templated, rushed, or inflated for effect.",
+    text: "What stood out was the clarity. There was no pressure, no overpromising, just proper information about the project and its future potential.",
     image:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Priya Shah",
-    role: "Seller, Pacific Heights",
+    name: "Neha Jain",
+    role: "Vaishali Nagar",
   },
   {
-    text: "They helped us move quietly, compare real options, and understand where value would hold over time.",
+    text: "For us, location and trust were the biggest factors. Kedia Group explained the township plan in a simple way and helped us choose the right plot size.",
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Rohan Kapoor",
-    role: "Buyer, Malibu",
+    name: "Rohit Mathur",
+    role: "Sikar Road",
   },
   {
-    text: "The team protected our privacy while still creating the right pressure with qualified buyers.",
+    text: "Their team understood what a Jaipur family looks for in a home: access, safety, practical planning, and value that holds over time.",
     image:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Sana Sheikh",
-    role: "Project Buyer",
+    name: "Pooja Khandelwal",
+    role: "Tonk Road",
   },
   {
-    text: "Their market read was sharper than anyone else's. We made decisions with real confidence.",
+    text: "We appreciated how organized the documentation and project explanation were. It made the process much easier for our parents as well.",
     image:
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Aliza Khan",
-    role: "Buyer, Beverly Hills",
+    name: "Kavya Agarwal",
+    role: "Raja Park",
   },
   {
-    text: "Kedia Group brought calm to a complicated sale and kept every detail moving without drama.",
+    text: "The project team was straightforward about timelines, amenities, and surrounding development. That honesty made a real difference.",
     image:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Hassan Ali",
-    role: "Seller, Los Angeles",
+    name: "Mahendra Singh Rathore",
+    role: "Sirsi Road",
   },
   {
-    text: "We valued their discretion as much as their taste. The process was polished, direct, and deeply professional.",
+    text: "Kedia Group helped us look beyond just price and think about connectivity, neighborhood growth, and long-term value. That guidance was valuable.",
     image:
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150&h=150",
-    name: "Zainab Hussain",
-    role: "Buyer, Montecito",
+    name: "Farah Khan",
+    role: "Civil Lines",
   },
 ];
 
@@ -115,21 +115,21 @@ function TestimonialsColumn({
                   reduceMotion
                     ? undefined
                     : {
-                        scale: 1.025,
-                        y: -8,
-                        boxShadow:
-                          "0 25px 50px -12px rgba(28, 28, 28, 0.12), 0 0 0 1px rgba(28, 28, 28, 0.05)",
-                      }
+                      scale: 1.025,
+                      y: -8,
+                      boxShadow:
+                        "0 25px 50px -12px rgba(28, 28, 28, 0.12), 0 0 0 1px rgba(28, 28, 28, 0.05)",
+                    }
                 }
                 whileFocus={
                   reduceMotion
                     ? undefined
                     : {
-                        scale: 1.025,
-                        y: -8,
-                        boxShadow:
-                          "0 25px 50px -12px rgba(28, 28, 28, 0.12), 0 0 0 1px rgba(28, 28, 28, 0.05)",
-                      }
+                      scale: 1.025,
+                      y: -8,
+                      boxShadow:
+                        "0 25px 50px -12px rgba(28, 28, 28, 0.12), 0 0 0 1px rgba(28, 28, 28, 0.05)",
+                    }
                 }
                 className="w-full max-w-xs cursor-default border border-border-gray bg-white p-8 shadow-lg shadow-deep-navy/5 transition focus:outline-none focus:ring-2 focus:ring-primary-navy/30"
               >
@@ -188,11 +188,11 @@ export default function TestimonialV2() {
             id="testimonials-heading"
             className="mt-6 font-display text-4xl leading-[1.05] text-charcoal-text md:text-5xl"
           >
-            Trusted when judgment matters most.
+            Trusted across Jaipur’s growing neighborhoods.
           </h2>
+
           <p className="mt-5 max-w-md text-base leading-8 text-slate-gray md:text-lg">
-            Buyers and sellers rely on Kedia Group for clear advice, disciplined
-            execution, and a composed process.
+            For generations, families have placed their trust in Kedia Group for thoughtful planning and investment opportunities.
           </p>
         </div>
 
