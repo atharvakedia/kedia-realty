@@ -4,6 +4,8 @@ import { Hero } from "@/components/sections/Hero";
 import { Stats } from "@/components/sections/Stats";
 import { Testimonials } from "@/components/sections/Testimonials";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <>

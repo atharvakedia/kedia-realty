@@ -8,10 +8,10 @@ const heroImage =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2200&h=1400&fit=crop&crop=entropy&auto=format&q=84";
 
 const rotatingWords = [
-  "Values",
-  "Homes",
   "Community",
+  "Homes",
   "Trust",
+  "Values",
   "Foundations",
   "Dreams",
 ];

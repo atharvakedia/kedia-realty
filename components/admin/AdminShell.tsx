@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 import { signOutAction } from "@/app/admin/actions";
+import { AdminBackLink } from "@/components/admin/AdminBackLink";
 import type { AdminProfile } from "@/lib/types";
 
 type AdminShellProps = {
@@ -18,6 +19,8 @@ export async function AdminShell({
   title,
   eyebrow = "Kedia Group CMS",
 }: AdminShellProps) {
+  const showDashboardBack = title !== "Dashboard";
+
   return (
     <section className="min-h-[calc(100vh-6rem)] bg-soft-white px-5 py-10 md:px-8">
       <div className="mx-auto max-w-7xl">
@@ -70,6 +73,11 @@ export async function AdminShell({
             </h1>
           </div>
         </header>
+        {showDashboardBack ? (
+          <div className="mb-6">
+            <AdminBackLink href="/admin" label="Back to dashboard" />
+          </div>
+        ) : null}
         {children}
       </div>
     </section>

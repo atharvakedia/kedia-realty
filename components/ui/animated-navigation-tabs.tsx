@@ -42,7 +42,7 @@ export function AnimatedNavigationTabs({
                   isActive ? "text-primary-navy" : "text-slate-gray",
                 )}
               >
-                <span className="relative z-10 inline-flex items-center gap-3 px-5 py-2">
+                <span className="relative z-10 inline-flex min-w-44 items-center justify-center gap-3 px-10 py-2">
                   {item.title}
                   {typeof item.count === "number" ? (
                     <span

@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { AdminBackLink } from "@/components/admin/AdminBackLink";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { getNewLeadsCount } from "@/lib/leads";
 import { requireAdmin } from "@/lib/projects";
@@ -32,7 +31,12 @@ export default async function AdminPage() {
   return (
     <AdminShell profile={profile} title="Dashboard">
       <div className="mb-6">
-        <AdminBackLink href="/" label="Go to website" />
+        <Link
+          href="/"
+          className="inline-flex min-h-11 items-center border border-border-gray bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-primary-navy transition hover:border-primary-navy hover:bg-cool-mist"
+        >
+          Go to website
+        </Link>
       </div>
       <div className="grid gap-5 md:grid-cols-2">
         {dashboardCards.map((card) => {

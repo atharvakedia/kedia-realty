@@ -102,7 +102,7 @@ function TestimonialsColumn({
           ease: "linear",
           repeatType: "loop",
         }}
-        className="m-0 flex list-none flex-col gap-6 bg-transparent p-0 pb-6"
+        className="m-0 flex list-none flex-col gap-3 bg-transparent p-0 pb-3 sm:gap-6 sm:pb-6"
       >
         {Array.from({ length: 2 }).map((_, index) => (
           <React.Fragment key={index}>
@@ -131,23 +131,25 @@ function TestimonialsColumn({
                         "0 25px 50px -12px rgba(28, 28, 28, 0.12), 0 0 0 1px rgba(28, 28, 28, 0.05)",
                     }
                 }
-                className="w-full max-w-xs cursor-default border border-border-gray bg-white p-8 shadow-lg shadow-deep-navy/5 transition focus:outline-none focus:ring-2 focus:ring-primary-navy/30"
+                className="w-[calc((100vw-3.5rem)/2)] max-w-[11rem] cursor-default border border-border-gray bg-white p-4 shadow-lg shadow-deep-navy/5 transition focus:outline-none focus:ring-2 focus:ring-primary-navy/30 sm:w-full sm:max-w-xs sm:p-8"
               >
                 <blockquote>
-                  <p className="m-0 text-sm leading-7 text-slate-gray">{text}</p>
-                  <footer className="mt-6 flex items-center gap-3">
+                  <p className="m-0 text-[0.68rem] leading-5 text-slate-gray sm:text-sm sm:leading-7">
+                    {text}
+                  </p>
+                  <footer className="mt-4 flex items-center gap-2 sm:mt-6 sm:gap-3">
                     <Image
                       width={40}
                       height={40}
                       src={image}
                       alt={`Avatar of ${name}`}
-                      className="size-10 rounded-full object-cover ring-2 ring-cool-mist"
+                      className="size-7 rounded-full object-cover ring-2 ring-cool-mist sm:size-10"
                     />
                     <div className="flex flex-col">
-                      <cite className="not-italic font-semibold leading-5 tracking-tight text-charcoal-text">
+                      <cite className="text-[0.68rem] not-italic font-semibold leading-4 tracking-tight text-charcoal-text sm:text-sm sm:leading-5">
                         {name}
                       </cite>
-                      <span className="mt-0.5 text-sm leading-5 tracking-tight text-slate-gray">
+                      <span className="mt-0.5 text-[0.64rem] leading-4 tracking-tight text-slate-gray sm:text-sm sm:leading-5">
                         {role}
                       </span>
                     </div>
@@ -197,19 +199,19 @@ export default function TestimonialV2() {
         </div>
 
         <div
-          className="mx-auto mt-10 flex max-h-[740px] justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
+          className="mx-auto mt-10 flex max-h-[620px] justify-center gap-3 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] sm:max-h-[740px] sm:gap-6"
           role="region"
           aria-label="Scrolling testimonials"
         >
           <TestimonialsColumn testimonials={firstColumn} duration={15} />
           <TestimonialsColumn
             testimonials={secondColumn}
-            className="hidden md:block"
+            className="block"
             duration={19}
           />
           <TestimonialsColumn
             testimonials={thirdColumn}
-            className="hidden lg:block"
+            className="hidden md:block"
             duration={17}
           />
         </div>

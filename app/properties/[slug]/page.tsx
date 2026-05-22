@@ -4,11 +4,13 @@ import { notFound } from "next/navigation";
 import { ProjectAmenitiesCarousel } from "@/components/projects/ProjectAmenitiesCarousel";
 import { ProjectImageCarousel } from "@/components/projects/ProjectImageCarousel";
 import { ProjectLayouts } from "@/components/projects/ProjectLayouts";
-import { getProjectBySlug, getPublishedProjects } from "@/lib/projects";
+import { getProjectBySlug } from "@/lib/projects";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export const dynamic = "force-dynamic";
 
 function formatAcres(value: string) {
   const trimmed = value.trim();
@@ -18,12 +20,6 @@ function formatAcres(value: string) {
   }
 
   return /[a-z]/i.test(trimmed) ? trimmed : `${trimmed} Acres`;
-}
-
-export async function generateStaticParams() {
-  const projects = await getPublishedProjects();
-
-  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({

@@ -50,6 +50,15 @@ export function Footer() {
             <br />
             +91 9950158468
           </address>
+          <div className="mt-6 overflow-hidden border border-white/15 bg-white/5">
+            <iframe
+              title="Kedia Group office map"
+              src="https://www.google.com/maps?q=B2%2F12%2C%20Gandhi%20Path%20Rd%2C%20Vaishali%20Nagar%2C%20Jaipur%2C%20Rajasthan%20302013%2C%20India&output=embed"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-32 w-full"
+            />
+          </div>
         </div>
       </div>
       <div className="border-t border-white/10 px-5 py-6 md:px-8">

@@ -10,6 +10,8 @@ export const metadata: Metadata = {
     "Explore Kedia Group developer projects across townships, apartments, villas, commercial spaces, farmhouses, and industrial townships.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function ProjectsPage() {
   const projects = await getPublishedProjects();
 

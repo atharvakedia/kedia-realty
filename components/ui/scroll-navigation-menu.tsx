@@ -76,7 +76,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
         stiffness: 300,
         damping: 30,
         when: "afterChildren",
-        staggerChildren: 0.04,
+        staggerChildren: 0.02,
         staggerDirection: -1,
       },
     },
@@ -89,7 +89,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
         stiffness: 300,
         damping: 30,
         when: "beforeChildren",
-        staggerChildren: 0.08,
+        staggerChildren: 0.04,
       },
     },
   };
@@ -106,8 +106,8 @@ export const Component: React.FC<ScrollNavbarProps> = ({
       scale: 1,
       transition: {
         type: "spring",
-        stiffness: 400,
-        damping: 25,
+        stiffness: 540,
+        damping: 30,
       },
     },
   };
@@ -266,9 +266,9 @@ export const Component: React.FC<ScrollNavbarProps> = ({
               initial="closed"
               animate="open"
               exit="closed"
-              className="fixed left-1/2 top-1/2 z-50 w-[min(calc(100vw-2rem),25rem)] -translate-x-1/2 -translate-y-1/2"
+              className="fixed left-1/2 top-1/2 z-50 w-[min(calc(100vw-3rem),17rem)] -translate-x-1/2 -translate-y-1/2"
             >
-              <div className="relative border border-border-gray bg-white px-6 py-14 text-center shadow-[0_30px_100px_rgba(4,43,76,0.25)]">
+              <div className="relative border border-border-gray bg-white px-4 py-11 text-center shadow-[0_30px_100px_rgba(4,43,76,0.25)]">
                 <motion.button
                   type="button"
                   onClick={toggleMenu}
@@ -280,26 +280,42 @@ export const Component: React.FC<ScrollNavbarProps> = ({
                   <MenuToggleIcon open className="size-6" duration={500} />
                 </motion.button>
 
-                <div className="mx-auto flex max-w-64 flex-col items-center gap-3">
-                  {menuItems.map((item) => (
-                    <motion.div
-                      key={item.id}
-                      variants={itemVariants}
-                      className="w-full"
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <Link
-                        href={item.url}
-                        onClick={toggleMenu}
-                        className="group flex min-h-14 w-full items-center justify-center border-b border-border-gray/70 px-6 py-3 transition-colors last:border-b-0 hover:bg-cool-mist"
+                <div className="mx-auto flex max-w-44 flex-col items-center gap-1.5">
+                  {menuItems.map((item) => {
+                    const active =
+                      item.url === "/"
+                        ? pathname === item.url
+                        : pathname.startsWith(item.url);
+
+                    return (
+                      <motion.div
+                        key={item.id}
+                        variants={itemVariants}
+                        className="w-full"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                       >
-                        <span className="text-base font-semibold uppercase tracking-[0.24em] text-charcoal-text group-hover:text-primary-navy">
-                          {item.title}
-                        </span>
-                      </Link>
-                    </motion.div>
-                  ))}
+                        <Link
+                          href={item.url}
+                          onClick={toggleMenu}
+                          aria-current={active ? "page" : undefined}
+                          className={cn(
+                            "group flex min-h-11 w-full items-center justify-center border-b border-border-gray/70 px-4 py-2.5 transition-colors last:border-b-0 hover:bg-cool-mist",
+                            active && "bg-cool-mist",
+                          )}
+                        >
+                          <span
+                            className={cn(
+                              "text-xs font-semibold uppercase tracking-[0.2em] group-hover:text-primary-navy",
+                              active ? "text-primary-navy" : "text-charcoal-text",
+                            )}
+                          >
+                            {item.title}
+                          </span>
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
