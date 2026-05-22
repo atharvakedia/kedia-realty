@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Button } from "@/components/ui/Button";
+import { ContactForm } from "@/app/contact/ContactForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
@@ -35,24 +35,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <form className="grid gap-5 bg-cool-mist p-6 md:p-8" aria-label="Contact form">
-          {["Name", "Email", "Phone"].map((label) => (
-            <label key={label} className="grid gap-2 text-sm text-charcoal-text">
-              {label}
-              <input
-                className="min-h-12 border border-border-gray bg-white px-4 outline-none transition focus:border-primary-navy"
-                type={label === "Email" ? "email" : "text"}
-              />
-            </label>
-          ))}
-          <label className="grid gap-2 text-sm text-charcoal-text">
-            How can we help?
-            <textarea className="min-h-36 resize-y border border-border-gray bg-white px-4 py-3 outline-none transition focus:border-primary-navy" />
-          </label>
-          <Button href="mailto:hello@kediarealty.com" className="justify-self-start">
-            Send inquiry
-          </Button>
-        </form>
+        <ContactForm />
       </div>
     </section>
   );

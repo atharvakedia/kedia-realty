@@ -12,12 +12,7 @@ type AdminShellProps = {
   eyebrow?: string;
 };
 
-const adminNav: Array<{ href: string; label: string }> = [
-  // { href: "/admin", label: "Overview" },
-  // { href: "/admin/projects", label: "Projects" },
-];
-
-export function AdminShell({
+export async function AdminShell({
   children,
   profile,
   title,
@@ -56,17 +51,6 @@ export function AdminShell({
               </div>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <nav className="flex flex-wrap gap-2">
-                {adminNav.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="border border-border-gray px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-charcoal-text transition hover:border-primary-navy hover:text-primary-navy"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
               <form action={signOutAction}>
                 <button
                   type="submit"

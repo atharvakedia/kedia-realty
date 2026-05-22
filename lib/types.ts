@@ -127,3 +127,134 @@ export type AdminProfile = {
   createdAt: string;
   updatedAt: string;
 };
+
+export const careerDepartments = [
+  "Sales",
+  "Marketing",
+  "Projects",
+  "Architecture",
+  "Finance",
+  "Legal",
+  "Operations",
+  "Customer Relations",
+] as const;
+
+export type CareerDepartment = (typeof careerDepartments)[number];
+
+export const employmentTypes = [
+  "Full-time",
+  "Part-time",
+  "Contract",
+  "Internship",
+] as const;
+
+export type EmploymentType = (typeof employmentTypes)[number];
+
+export const applicationStatuses = [
+  "New",
+  "Reviewing",
+  "Shortlisted",
+  "Rejected",
+  "Hired",
+] as const;
+
+export type ApplicationStatus = (typeof applicationStatuses)[number];
+
+export type CareerRole = {
+  id?: string;
+  title: string;
+  slug: string;
+  department: string;
+  location: string;
+  employmentType: EmploymentType;
+  summary: string;
+  responsibilities: string[];
+  requirements: string[];
+  isOpen: boolean;
+  displayOrder?: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type CareerRoleRow = {
+  id: string;
+  title: string;
+  slug: string;
+  department: string;
+  location: string;
+  employment_type: string;
+  summary: string;
+  responsibilities: string[];
+  requirements: string[];
+  is_open: boolean;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CareerRoleFormInput = Omit<
+  CareerRole,
+  "id" | "createdAt" | "updatedAt"
+>;
+
+export type CareerApplication = {
+  id: string;
+  roleId: string | null;
+  roleTitle: string;
+  candidateName: string;
+  email: string;
+  phone: string;
+  city: string;
+  experience: string;
+  expectedSalary: string;
+  resumeUrl: string;
+  portfolioUrl?: string;
+  message: string;
+  status: ApplicationStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CareerApplicationRow = {
+  id: string;
+  role_id: string | null;
+  role_title: string;
+  candidate_name: string;
+  email: string;
+  phone: string;
+  city: string;
+  experience: string;
+  expected_salary: string | null;
+  resume_url: string;
+  portfolio_url: string | null;
+  message: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export const leadStatuses = ["new", "active", "archived"] as const;
+
+export type LeadStatus = (typeof leadStatuses)[number];
+
+export type Lead = {
+  id: string;
+  name: string;
+  email?: string;
+  phone: string;
+  message: string;
+  status: LeadStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type LeadRow = {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string;
+  message: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+};

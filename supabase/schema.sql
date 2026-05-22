@@ -2,12 +2,15 @@
 -- WARNING: This script is intentionally destructive for the website CMS tables.
 -- Run this only when you are ready to rebuild the Supabase project content model.
 -- It does not delete Supabase Auth users, but it will remove admin profile rows,
--- projects, project images, and project layouts.
+-- projects, project images, project layouts, career roles, and applications.
 
 create extension if not exists pgcrypto;
 
 drop table if exists public.project_layouts cascade;
 drop table if exists public.project_images cascade;
+drop table if exists public.career_applications cascade;
+drop table if exists public.career_roles cascade;
+drop table if exists public.contact_leads cascade;
 drop table if exists public.projects cascade;
 drop table if exists public.admin_profiles cascade;
 
@@ -81,6 +84,51 @@ create table public.project_layouts (
   updated_at timestamptz not null default now()
 );
 
+create table public.career_roles (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  slug text not null unique,
+  department text not null,
+  location text not null,
+  employment_type text not null,
+  summary text not null,
+  responsibilities text[] not null default '{}',
+  requirements text[] not null default '{}',
+  is_open boolean not null default true,
+  display_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.career_applications (
+  id uuid primary key default gen_random_uuid(),
+  role_id uuid references public.career_roles(id) on delete set null,
+  role_title text not null,
+  candidate_name text not null,
+  email text not null,
+  phone text not null,
+  city text not null,
+  experience text not null,
+  expected_salary text,
+  resume_url text not null,
+  portfolio_url text,
+  message text not null,
+  status text not null default 'New',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.contact_leads (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text,
+  phone text not null,
+  message text not null,
+  status text not null default 'new',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create trigger set_admin_profiles_updated_at
 before update on public.admin_profiles
 for each row execute function public.set_updated_at();
@@ -97,6 +145,18 @@ create trigger set_project_layouts_updated_at
 before update on public.project_layouts
 for each row execute function public.set_updated_at();
 
+create trigger set_career_roles_updated_at
+before update on public.career_roles
+for each row execute function public.set_updated_at();
+
+create trigger set_career_applications_updated_at
+before update on public.career_applications
+for each row execute function public.set_updated_at();
+
+create trigger set_contact_leads_updated_at
+before update on public.contact_leads
+for each row execute function public.set_updated_at();
+
 create index projects_slug_idx on public.projects (slug);
 create index projects_published_order_idx
   on public.projects (is_published, display_order, updated_at desc);
@@ -108,11 +168,23 @@ create index project_images_project_order_idx
   on public.project_images (project_id, is_cover desc, display_order);
 create index project_layouts_project_order_idx
   on public.project_layouts (project_id, display_order);
+create index career_roles_open_order_idx
+  on public.career_roles (is_open, display_order, updated_at desc);
+create index career_roles_slug_idx on public.career_roles (slug);
+create index career_applications_created_idx
+  on public.career_applications (created_at desc);
+create index career_applications_role_idx
+  on public.career_applications (role_id, created_at desc);
+create index contact_leads_status_created_idx
+  on public.contact_leads (status, created_at desc);
 
 alter table public.admin_profiles enable row level security;
 alter table public.projects enable row level security;
 alter table public.project_images enable row level security;
 alter table public.project_layouts enable row level security;
+alter table public.career_roles enable row level security;
+alter table public.career_applications enable row level security;
+alter table public.contact_leads enable row level security;
 
 create or replace function public.current_admin_role()
 returns text
@@ -224,6 +296,64 @@ on public.project_layouts for delete
 to authenticated
 using (public.can_edit_content());
 
+create policy "Public can read open career roles"
+on public.career_roles for select
+to anon, authenticated
+using (is_open = true or public.is_admin());
+
+create policy "Editors can insert career roles"
+on public.career_roles for insert
+to authenticated
+with check (public.can_edit_content());
+
+create policy "Editors can update career roles"
+on public.career_roles for update
+to authenticated
+using (public.can_edit_content())
+with check (public.can_edit_content());
+
+create policy "Editors can delete career roles"
+on public.career_roles for delete
+to authenticated
+using (public.can_edit_content());
+
+create policy "Public can submit career applications"
+on public.career_applications for insert
+to anon, authenticated
+with check (true);
+
+create policy "Admins can read career applications"
+on public.career_applications for select
+to authenticated
+using (public.is_admin());
+
+create policy "Editors can update career applications"
+on public.career_applications for update
+to authenticated
+using (public.can_edit_content())
+with check (public.can_edit_content());
+
+create policy "Editors can delete career applications"
+on public.career_applications for delete
+to authenticated
+using (public.can_edit_content());
+
+create policy "Public can submit contact leads"
+on public.contact_leads for insert
+to anon, authenticated
+with check (true);
+
+create policy "Admins can read contact leads"
+on public.contact_leads for select
+to authenticated
+using (public.is_admin());
+
+create policy "Editors can update contact leads"
+on public.contact_leads for update
+to authenticated
+using (public.can_edit_content())
+with check (public.can_edit_content());
+
 insert into storage.buckets (
   id,
   name,
@@ -236,6 +366,27 @@ insert into storage.buckets (
   true,
   10485760,
   array['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+) on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+insert into storage.buckets (
+  id,
+  name,
+  public,
+  file_size_limit,
+  allowed_mime_types
+) values (
+  'career-resumes',
+  'career-resumes',
+  false,
+  10485760,
+  array[
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ]
 ) on conflict (id) do update set
   public = excluded.public,
   file_size_limit = excluded.file_size_limit,
@@ -275,6 +426,30 @@ on storage.objects for delete
 to authenticated
 using (
   bucket_id = 'project-images'
+  and public.can_edit_content()
+);
+
+drop policy if exists "Applicants can upload career resumes" on storage.objects;
+create policy "Applicants can upload career resumes"
+on storage.objects for insert
+to anon, authenticated
+with check (bucket_id = 'career-resumes');
+
+drop policy if exists "Admins can read career resumes" on storage.objects;
+create policy "Admins can read career resumes"
+on storage.objects for select
+to authenticated
+using (
+  bucket_id = 'career-resumes'
+  and public.is_admin()
+);
+
+drop policy if exists "Editors can delete career resumes" on storage.objects;
+create policy "Editors can delete career resumes"
+on storage.objects for delete
+to authenticated
+using (
+  bucket_id = 'career-resumes'
   and public.can_edit_content()
 );
 
@@ -383,3 +558,44 @@ join (
   ('kedia-industrial-park','Manufacturing Plot','Industrial Plot','50,000 sq ft','https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80','Large industrial format with planning flexibility for production and service movement.',20)
 ) as l(slug, title, type, area, image_url, description, display_order)
 on p.slug = l.slug;
+
+insert into public.career_roles (
+  title, slug, department, location, employment_type, summary,
+  responsibilities, requirements, is_open, display_order
+) values
+(
+  'Senior Sales Advisor',
+  'senior-sales-advisor',
+  'Sales',
+  'Jaipur, Rajasthan',
+  'Full-time',
+  'Lead customer relationships across Kedia Group residential and commercial projects with disciplined follow-up and strong project knowledge.',
+  array['Manage qualified walk-ins and project inquiries','Coordinate site visits and documentation handoffs','Maintain clear CRM notes and follow-up discipline'],
+  array['5+ years in real estate sales or high-value advisory','Strong local market understanding','Excellent communication and documentation habits'],
+  true,
+  10
+),
+(
+  'Project Marketing Producer',
+  'project-marketing-producer',
+  'Marketing',
+  'Hybrid',
+  'Full-time',
+  'Shape project launch assets, campaign copy, photography coordination, and on-ground marketing material with a premium developer tone.',
+  array['Coordinate project photography and launch collateral','Write and refine project-facing content','Support events, site branding, and digital campaigns'],
+  array['3+ years in real estate, architecture, or brand marketing','Strong writing and vendor coordination skills','Sharp eye for detail and presentation'],
+  true,
+  20
+),
+(
+  'Client Experience Coordinator',
+  'client-experience-coordinator',
+  'Customer Relations',
+  'Jaipur, Rajasthan',
+  'Full-time',
+  'Coordinate client communication, site visit scheduling, and post-booking documentation workflows with reliability and care.',
+  array['Schedule site visits and client meetings','Track customer documentation requirements','Coordinate between sales, accounts, and project teams'],
+  array['2+ years in customer coordination or real estate operations','Organized communication style','Comfort with spreadsheets and CRM workflows'],
+  true,
+  30
+);

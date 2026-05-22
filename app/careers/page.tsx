@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { careers } from "@/lib/data";
+import { getOpenCareerRoles } from "@/lib/careers";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -10,7 +10,11 @@ export const metadata: Metadata = {
     "Explore career opportunities with Kedia Group's real estate development team.",
 };
 
-export default function CareersPage() {
+export const dynamic = "force-dynamic";
+
+export default async function CareersPage() {
+  const careers = await getOpenCareerRoles();
+
   return (
     <>
       <section className="bg-white px-5 py-16 md:px-8 lg:py-24">
@@ -36,7 +40,7 @@ export default function CareersPage() {
           <div className="mt-10 grid gap-5">
             {careers.map((career) => (
               <article
-                key={career.title}
+                key={career.id ?? career.slug}
                 className="grid gap-5 border border-border-gray bg-white p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8"
               >
                 <div>
@@ -44,17 +48,17 @@ export default function CareersPage() {
                     {career.title}
                   </h3>
                   <p className="mt-3 text-sm leading-7 text-slate-gray">
-                    {career.description}
+                    {career.summary}
                   </p>
                 </div>
                 <div className="text-sm text-slate-gray md:text-right">
                   <p>{career.location}</p>
-                  <p className="mt-1">{career.type}</p>
+                  <p className="mt-1">{career.employmentType}</p>
                 </div>
               </article>
             ))}
           </div>
-          <Button href="mailto:careers@kediarealty.com" className="mt-10">
+          <Button href="/careers/introduce-yourself" className="mt-10">
             Introduce yourself
           </Button>
         </div>
