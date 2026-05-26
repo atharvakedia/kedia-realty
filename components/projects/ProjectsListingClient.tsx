@@ -2,73 +2,45 @@
 
 import { useMemo, useState } from "react";
 
+import { ProjectsPagination } from "@/components/projects/ProjectsPagination";
 import { ShiftingDropDown } from "@/components/ui/shifting-dropdown";
 import { ProjectCard } from "@/components/ui/ProjectCard";
-import type { Project, ProjectStatus, ProjectType } from "@/lib/types";
+import {
+  defaultProjectFilters,
+  filterProjects,
+  getProjectFilterOptions,
+  hasActiveProjectFilters,
+  type ProjectFilters,
+} from "@/lib/project-filters";
+import type { Project } from "@/lib/types";
 
 type ProjectsListingClientProps = {
   projects: Project[];
 };
 
-type Filters = {
-  region: string;
-  type: string;
-  status: string;
-};
-
-const anyValue = "Any";
 const projectsPerPage = 6;
 
-function uniqueSorted(values: string[]) {
-  return Array.from(new Set(values)).sort((a, b) => a.localeCompare(b));
-}
-
 export function ProjectsListingClient({ projects }: ProjectsListingClientProps) {
-  const [filters, setFilters] = useState<Filters>({
-    region: anyValue,
-    type: anyValue,
-    status: anyValue,
-  });
+  const [filters, setFilters] = useState<ProjectFilters>(defaultProjectFilters);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const regions = useMemo(
-    () => uniqueSorted(projects.map((project) => project.region)),
+  const { regions, types, statuses } = useMemo(
+    () => getProjectFilterOptions(projects),
     [projects],
   );
-  const types = useMemo(
-    () => uniqueSorted(projects.map((project) => project.type)),
-    [projects],
+  const matchingProjects = useMemo(
+    () => filterProjects(projects, filters),
+    [filters, projects],
   );
-  const statuses = useMemo(
-    () => uniqueSorted(projects.map((project) => project.status)),
-    [projects],
-  );
+  const hasActiveFilters = hasActiveProjectFilters(filters);
 
-  const matchingProjects = useMemo(() => {
-    return projects.filter((project) => {
-      const regionMatch =
-        filters.region === anyValue || project.region === filters.region;
-      const typeMatch =
-        filters.type === anyValue || project.type === (filters.type as ProjectType);
-      const statusMatch =
-        filters.status === anyValue ||
-        project.status === (filters.status as ProjectStatus);
-
-      return regionMatch && typeMatch && statusMatch;
-    });
-  }, [filters, projects]);
-
-  const hasActiveFilters = Object.values(filters).some(
-    (value) => value !== anyValue,
-  );
-
-  const updateFilter = (filter: keyof Filters, value: string) => {
+  const updateFilter = (filter: keyof ProjectFilters, value: string) => {
     setFilters((current) => ({ ...current, [filter]: value }));
     setCurrentPage(1);
   };
 
   const resetFilters = () => {
-    setFilters({ region: anyValue, type: anyValue, status: anyValue });
+    setFilters(defaultProjectFilters);
     setCurrentPage(1);
   };
 
@@ -137,57 +109,13 @@ export function ProjectsListingClient({ projects }: ProjectsListingClientProps) 
             ))}
           </div>
 
-          {totalPages > 1 ? (
-            <nav
-              aria-label="Projects pagination"
-              className="mt-10 flex flex-col gap-4 border-t border-border-gray pt-6 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-gray">
-                Page {safeCurrentPage} of {totalPages}
-              </p>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-                  disabled={safeCurrentPage === 1}
-                  className="min-h-11 border border-border-gray px-5 text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy transition hover:border-primary-navy hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Previous
-                </button>
-                {Array.from({ length: totalPages }, (_, index) => {
-                  const pageNumber = index + 1;
-                  const isActive = pageNumber === safeCurrentPage;
-
-                  return (
-                    <button
-                      key={pageNumber}
-                      type="button"
-                      onClick={() => setCurrentPage(pageNumber)}
-                      aria-current={isActive ? "page" : undefined}
-                      className={[
-                        "flex size-11 items-center justify-center border text-sm font-semibold transition",
-                        isActive
-                          ? "border-primary-navy bg-primary-navy text-white"
-                          : "border-border-gray bg-white text-primary-navy hover:border-primary-navy",
-                      ].join(" ")}
-                    >
-                      {pageNumber}
-                    </button>
-                  );
-                })}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setCurrentPage((page) => Math.min(totalPages, page + 1))
-                  }
-                  disabled={safeCurrentPage === totalPages}
-                  className="min-h-11 border border-border-gray px-5 text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy transition hover:border-primary-navy hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Next
-                </button>
-              </div>
-            </nav>
-          ) : null}
+          <ProjectsPagination
+            ariaLabel="Projects pagination"
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            className="mt-10"
+          />
         </>
       ) : (
         <div className="mt-10 border border-border-gray bg-white p-10 text-center">

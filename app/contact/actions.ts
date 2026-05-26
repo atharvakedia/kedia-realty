@@ -1,6 +1,7 @@
 "use server";
 
 import { createContactLead } from "@/lib/leads";
+import { formText, isValidEmail } from "@/lib/forms";
 
 export type ContactActionState = {
   error?: string;
@@ -14,22 +15,14 @@ export type ContactActionState = {
   };
 };
 
-function text(formData: FormData, key: string) {
-  return String(formData.get(key) ?? "").trim();
-}
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
 export async function submitContactLeadAction(
   _previousState: ContactActionState,
   formData: FormData,
 ): Promise<ContactActionState> {
-  const name = text(formData, "name");
-  const email = text(formData, "email");
-  const phone = text(formData, "phone").replace(/\D/g, "");
-  const message = text(formData, "message");
+  const name = formText(formData, "name");
+  const email = formText(formData, "email");
+  const phone = formText(formData, "phone").replace(/\D/g, "");
+  const message = formText(formData, "message");
   const values = { name, email, phone, message };
   const fieldErrors: Record<string, string> = {};
 

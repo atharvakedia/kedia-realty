@@ -2,6 +2,8 @@
 
 import { createSupabaseServerClient, hasSupabaseEnv } from "@/lib/supabase/server";
 import { submitCareerApplication } from "@/lib/careers";
+import { formText, isValidEmail, wordCount } from "@/lib/forms";
+import { careerResumesBucket, createStorageObjectName } from "@/lib/storage";
 
 export type CareerApplicationActionState = {
   error?: string;
@@ -18,38 +20,19 @@ export type CareerApplicationActionState = {
   };
 };
 
-function text(formData: FormData, key: string) {
-  return String(formData.get(key) ?? "").trim();
-}
-
-function safeFileName(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9._-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function wordCount(value: string) {
-  return value.split(/\s+/).filter(Boolean).length;
-}
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
 async function uploadResume(file: File, candidateName: string) {
   if (!hasSupabaseEnv()) {
     return "local-development-resume";
   }
 
   const supabase = await createSupabaseServerClient();
-  const extension = file.name.split(".").pop() || "pdf";
-  const path = `${new Date().getFullYear()}/${crypto.randomUUID()}-${safeFileName(
-    candidateName,
-  )}.${extension}`;
+  const path = `${new Date().getFullYear()}/${createStorageObjectName(
+    file.name,
+    candidateName || "resume",
+  )}`;
 
   const { data, error } = await supabase.storage
-    .from("career-resumes")
+    .from(careerResumesBucket)
     .upload(path, file, {
       contentType: file.type || "application/octet-stream",
       upsert: false,
@@ -66,14 +49,14 @@ export async function submitCareerApplicationAction(
   _previousState: CareerApplicationActionState,
   formData: FormData,
 ): Promise<CareerApplicationActionState> {
-  const candidateName = text(formData, "candidateName");
-  const email = text(formData, "email");
-  const phone = text(formData, "phone").replace(/\D/g, "");
-  const roleTitle = text(formData, "roleTitle");
-  const roleId = text(formData, "roleId");
-  const expectedSalary = text(formData, "expectedSalary");
-  const portfolioUrl = text(formData, "portfolioUrl");
-  const message = text(formData, "message");
+  const candidateName = formText(formData, "candidateName");
+  const email = formText(formData, "email");
+  const phone = formText(formData, "phone").replace(/\D/g, "");
+  const roleTitle = formText(formData, "roleTitle");
+  const roleId = formText(formData, "roleId");
+  const expectedSalary = formText(formData, "expectedSalary");
+  const portfolioUrl = formText(formData, "portfolioUrl");
+  const message = formText(formData, "message");
   const resume = formData.get("resume");
   const resumeFile = resume instanceof File ? resume : null;
   const values = {

@@ -18,13 +18,6 @@ export type Testimonial = {
   role: string;
 };
 
-export type Career = {
-  title: string;
-  location: string;
-  type: string;
-  description: string;
-};
-
 export type Service = {
   title: string;
   description: string;
@@ -400,30 +393,6 @@ export const testimonials: Testimonial[] = [
       "The difference was documentation clarity, site planning, and the confidence that the project team knew the ground realities.",
     name: "Julian Hart",
     role: "Investor, Rajasthan",
-  },
-];
-
-export const careers: Career[] = [
-  {
-    title: "Senior Sales Advisor",
-    location: "Jaipur, Rajasthan",
-    type: "Full-time",
-    description:
-      "Lead customer relationships across Kedia Group residential and commercial projects.",
-  },
-  {
-    title: "Project Marketing Producer",
-    location: "Hybrid",
-    type: "Full-time",
-    description:
-      "Shape project campaigns across photography, editorial copy, launch assets, and site events.",
-  },
-  {
-    title: "Client Experience Coordinator",
-    location: "Jaipur, Rajasthan",
-    type: "Full-time",
-    description:
-      "Coordinate site visits, client communication, and documentation workflows with precision.",
   },
 ];
 

@@ -7,49 +7,24 @@ import {
   createSupabaseBrowserClient,
   hasSupabaseEnv,
 } from "@/lib/supabase/client";
+import {
+  createStorageObjectName,
+  projectImagesBucket,
+  storagePathFromPublicUrl,
+  uniqueNonEmptyValues,
+} from "@/lib/storage";
 
 type ProjectImageManagerProps = {
   initialImages?: string[];
   slug: string;
 };
 
-const bucketName = "project-images";
-
-function uniqueImages(images: string[]) {
-  return Array.from(
-    new Set(images.map((image) => image.trim()).filter(Boolean)),
-  );
-}
-
-function storagePathFromPublicUrl(url: string) {
-  const marker = `/storage/v1/object/public/${bucketName}/`;
-  const markerIndex = url.indexOf(marker);
-
-  if (markerIndex === -1) {
-    return null;
-  }
-
-  return decodeURIComponent(url.slice(markerIndex + marker.length));
-}
-
-function safeFileName(fileName: string) {
-  const extension = fileName.split(".").pop()?.toLowerCase() || "jpg";
-  const name = fileName
-    .replace(/\.[^/.]+$/, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 42);
-
-  return `${name || "project-image"}.${extension}`;
-}
-
 export function ProjectImageManager({
   initialImages = [],
   slug,
 }: ProjectImageManagerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState(() => uniqueImages(initialImages));
+  const [images, setImages] = useState(() => uniqueNonEmptyValues(initialImages));
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const canUpload = hasSupabaseEnv();
@@ -79,13 +54,12 @@ export function ProjectImageManager({
           continue;
         }
 
-        const id =
-          typeof crypto !== "undefined" && "randomUUID" in crypto
-            ? crypto.randomUUID()
-            : `${Date.now()}-${Math.round(Math.random() * 100000)}`;
-        const path = `projects/${projectFolder}/${id}-${safeFileName(file.name)}`;
+        const path = `projects/${projectFolder}/${createStorageObjectName(
+          file.name,
+          "project-image",
+        )}`;
         const { error } = await supabase.storage
-          .from(bucketName)
+          .from(projectImagesBucket)
           .upload(path, file, {
             cacheControl: "31536000",
             upsert: false,
@@ -95,11 +69,13 @@ export function ProjectImageManager({
           throw error;
         }
 
-        const { data } = supabase.storage.from(bucketName).getPublicUrl(path);
+        const { data } = supabase.storage
+          .from(projectImagesBucket)
+          .getPublicUrl(path);
         uploadedUrls.push(data.publicUrl);
       }
 
-      setImages((current) => uniqueImages([...current, ...uploadedUrls]));
+      setImages((current) => uniqueNonEmptyValues([...current, ...uploadedUrls]));
       setMessage(
         uploadedUrls.length
           ? `${uploadedUrls.length} image${uploadedUrls.length === 1 ? "" : "s"} uploaded.`
@@ -122,7 +98,7 @@ export function ProjectImageManager({
       return;
     }
 
-    const path = storagePathFromPublicUrl(image);
+    const path = storagePathFromPublicUrl(image, projectImagesBucket);
 
     if (!path) {
       return;
@@ -130,7 +106,7 @@ export function ProjectImageManager({
 
     try {
       const supabase = createSupabaseBrowserClient();
-      await supabase.storage.from(bucketName).remove([path]);
+      await supabase.storage.from(projectImagesBucket).remove([path]);
     } catch {
       setMessage("The image was removed from this project, but storage deletion failed.");
     }

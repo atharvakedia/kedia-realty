@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@supabase/supabase-js";
 
-import { careers as fallbackCareers } from "@/lib/data";
 import { requireAdmin, requireEditor } from "@/lib/projects";
+import { createPublicSupabaseClient } from "@/lib/supabase/public";
 import { createSupabaseServerClient, hasSupabaseEnv } from "@/lib/supabase/server";
 import {
   applicationStatuses,
@@ -75,38 +74,6 @@ function mapCareerApplication(row: CareerApplicationRow): CareerApplication {
   };
 }
 
-function fallbackRoles(): CareerRole[] {
-  return fallbackCareers.map((career, index) => ({
-    id: career.title,
-    title: career.title,
-    slug: slugify(career.title),
-    department: "Operations",
-    location: career.location,
-    employmentType: asEmploymentType(career.type),
-    summary: career.description,
-    responsibilities: [],
-    requirements: [],
-    isOpen: true,
-    displayOrder: (index + 1) * 10,
-  }));
-}
-
-function createPublicSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("Supabase environment variables are not configured.");
-  }
-
-  return createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
-}
-
 function careerRolePayload(input: CareerRoleFormInput) {
   return {
     title: input.title,
@@ -133,7 +100,7 @@ function isMissingCareersSchema(error: { code?: string; message?: string } | nul
 
 export async function getOpenCareerRoles(): Promise<CareerRole[]> {
   if (!hasSupabaseEnv()) {
-    return fallbackRoles();
+    return [];
   }
 
   const supabase = createPublicSupabaseClient();
@@ -147,7 +114,7 @@ export async function getOpenCareerRoles(): Promise<CareerRole[]> {
     if (!isMissingCareersSchema(error)) {
       console.error("Failed to load open career roles", error);
     }
-    return fallbackRoles();
+    return [];
   }
 
   return ((data ?? []) as CareerRoleRow[]).map(mapCareerRole);

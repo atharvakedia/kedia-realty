@@ -7,6 +7,11 @@ import {
   createSupabaseBrowserClient,
   hasSupabaseEnv,
 } from "@/lib/supabase/client";
+import {
+  createStorageObjectName,
+  projectImagesBucket,
+  storagePathFromPublicUrl,
+} from "@/lib/storage";
 
 type LayoutImageUploaderProps = {
   value: string;
@@ -14,31 +19,6 @@ type LayoutImageUploaderProps = {
   projectSlug: string;
   layoutIndex: number;
 };
-
-const bucketName = "project-images";
-
-function storagePathFromPublicUrl(url: string) {
-  const marker = `/storage/v1/object/public/${bucketName}/`;
-  const markerIndex = url.indexOf(marker);
-
-  if (markerIndex === -1) {
-    return null;
-  }
-
-  return decodeURIComponent(url.slice(markerIndex + marker.length));
-}
-
-function safeFileName(fileName: string) {
-  const extension = fileName.split(".").pop()?.toLowerCase() || "jpg";
-  const name = fileName
-    .replace(/\.[^/.]+$/, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 42);
-
-  return `${name || "layout-plan"}.${extension}`;
-}
 
 export function LayoutImageUploader({
   value,
@@ -71,14 +51,12 @@ export function LayoutImageUploader({
 
     try {
       const supabase = createSupabaseBrowserClient();
-      const id =
-        typeof crypto !== "undefined" && "randomUUID" in crypto
-          ? crypto.randomUUID()
-          : `${Date.now()}-${Math.round(Math.random() * 100000)}`;
       const projectFolder = projectSlug || "draft-project";
-      const path = `layouts/${projectFolder}/layout-${layoutIndex + 1}/${id}-${safeFileName(file.name)}`;
+      const path = `layouts/${projectFolder}/layout-${
+        layoutIndex + 1
+      }/${createStorageObjectName(file.name, "layout-plan")}`;
       const { error } = await supabase.storage
-        .from(bucketName)
+        .from(projectImagesBucket)
         .upload(path, file, {
           cacheControl: "31536000",
           upsert: false,
@@ -88,7 +66,7 @@ export function LayoutImageUploader({
         throw error;
       }
 
-      const { data } = supabase.storage.from(bucketName).getPublicUrl(path);
+      const { data } = supabase.storage.from(projectImagesBucket).getPublicUrl(path);
       onChange(data.publicUrl);
       setMessage("Layout image uploaded.");
     } catch (error) {
@@ -111,7 +89,7 @@ export function LayoutImageUploader({
       return;
     }
 
-    const path = storagePathFromPublicUrl(previousValue);
+    const path = storagePathFromPublicUrl(previousValue, projectImagesBucket);
 
     if (!path) {
       return;
@@ -119,7 +97,7 @@ export function LayoutImageUploader({
 
     try {
       const supabase = createSupabaseBrowserClient();
-      await supabase.storage.from(bucketName).remove([path]);
+      await supabase.storage.from(projectImagesBucket).remove([path]);
     } catch {
       setMessage("The layout image was removed here, but storage deletion failed.");
     }
