@@ -5,13 +5,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const heroImage =
-  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2200&h=1400&fit=crop&crop=entropy&auto=format&q=84";
+  "https://vpuxbvmdhmxvxadctbdq.supabase.co/storage/v1/object/public/project-images/misc/pexels-stijn-dijkstra-1306815-16744871.jpghttps://vpuxbvmdhmxvxadctbdq.supabase.co/storage/v1/object/public/project-images/misc/home-page-hero-img.jpg";
 
 const rotatingWords = [
   "Community",
   "Homes",
   "Trust",
-  "Values",
+  "Value",
   "Foundations",
   "Dreams",
 ];
