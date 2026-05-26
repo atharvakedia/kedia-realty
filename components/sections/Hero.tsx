@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const heroImage =
-  "https://vpuxbvmdhmxvxadctbdq.supabase.co/storage/v1/object/public/project-images/misc/pexels-stijn-dijkstra-1306815-16744871.jpghttps://vpuxbvmdhmxvxadctbdq.supabase.co/storage/v1/object/public/project-images/misc/home-page-hero-img.jpg";
+  "https://vpuxbvmdhmxvxadctbdq.supabase.co/storage/v1/object/public/project-images/misc/home-page-hero-img.jpg";
 
 const rotatingWords = [
   "Community",
