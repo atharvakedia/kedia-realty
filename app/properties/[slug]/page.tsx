@@ -4,7 +4,14 @@ import { notFound } from "next/navigation";
 import { ProjectAmenitiesCarousel } from "@/components/projects/ProjectAmenitiesCarousel";
 import { ProjectImageCarousel } from "@/components/projects/ProjectImageCarousel";
 import { ProjectLayouts } from "@/components/projects/ProjectLayouts";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getProjectBySlug } from "@/lib/projects";
+import {
+  absoluteUrl,
+  siteName,
+  truncateDescription,
+} from "@/lib/seo";
+import { breadcrumbJsonLd, projectJsonLd } from "@/lib/structured-data";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -29,12 +36,50 @@ export async function generateMetadata({
   const project = await getProjectBySlug(slug);
 
   if (!project) {
-    return { title: "Project" };
+    return {
+      title: "Project not found",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
   }
 
+  const title = `${project.title} | ${project.type} in ${project.region}, ${project.location} | ${siteName}`;
+  const description = truncateDescription(
+    `${project.description} Status: ${project.status}. Location: ${project.region}, ${project.location}.`,
+  );
+  const canonical = absoluteUrl(`/properties/${project.slug}`);
+  const image = absoluteUrl(project.image);
+
   return {
-    title: project.title,
-    description: project.description,
+    title: {
+      absolute: title,
+    },
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      siteName,
+      images: [
+        {
+          url: image,
+          alt: `${project.title} ${project.type} in ${project.region}, ${project.location}`,
+        },
+      ],
+      locale: "en_IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
   };
 }
 
@@ -60,6 +105,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/properties" },
+            { name: project.title, path: `/properties/${project.slug}` },
+          ]),
+          projectJsonLd(project),
+        ]}
+      />
       <section className="bg-white px-5 py-16 md:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">

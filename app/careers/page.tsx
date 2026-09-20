@@ -3,12 +3,14 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getOpenCareerRoles } from "@/lib/careers";
+import { publicPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Careers",
   description:
-    "Explore career opportunities with Kedia Group's real estate development team.",
-};
+    "Explore career opportunities with Kedia Group's real estate development team in Jaipur and Rajasthan.",
+  path: "/careers",
+});
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +25,7 @@ export default async function CareersPage() {
             eyebrow="Careers"
             title="Build a thoughtful practice around planned real estate."
             body="We are growing a team that values taste, discretion, preparation, and direct client service."
+            headingLevel="h1"
           />
           <div className="grid gap-4 text-sm leading-7 text-slate-gray md:grid-cols-3">
             <p>High standards without theatrics.</p>

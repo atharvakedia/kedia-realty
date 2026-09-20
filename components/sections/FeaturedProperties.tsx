@@ -1,7 +1,7 @@
-import { ProjectCard } from "@/components/ui/ProjectCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { FeaturedProjectsCarousel } from "@/components/sections/FeaturedProjectsCarousel";
 import { getFeaturedProjects } from "@/lib/projects";
 
 export async function FeaturedProperties() {
@@ -20,13 +20,7 @@ export async function FeaturedProperties() {
             View all projects
           </Button>
         </div>
-        {featuredProjects.length > 0 ? (
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
-        ) : null}
+        <FeaturedProjectsCarousel projects={featuredProjects} />
       </div>
     </AnimatedSection>
   );

@@ -78,7 +78,7 @@ export function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden bg-architectural-black text-white">
       <Image
         src={heroImage}
-        alt="High-rise commercial development viewed from below"
+        alt="Kedia Group real estate projects across Jaipur and Rajasthan"
         fill
         priority
         sizes="100vw"
