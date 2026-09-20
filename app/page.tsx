@@ -12,9 +12,9 @@ import { localBusinessJsonLd } from "@/lib/structured-data";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = publicPageMetadata({
-  title: "Real Estate Developer Projects in Jaipur & Rajasthan",
+  title: "Proudly Building Rajasthan",
   description:
-    "Kedia Group develops planned real estate projects across Jaipur and Rajasthan, including townships, apartments, villas, commercial spaces, farm developments, and industrial townships.",
+    "Rooted in Rajasthan, we create thoughtful communities and enduring landmarks for generations to come.",
   path: "/",
 });
 

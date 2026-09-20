@@ -8,9 +8,9 @@ export const siteUrl = (
 ).replace(/\/$/, "");
 
 export const defaultSeoDescription =
-  "Kedia Group develops real estate projects across Jaipur and Rajasthan, including townships, apartments, villas, commercial spaces, plotted developments, and industrial townships.";
+  "Rooted in Rajasthan, we create thoughtful communities and enduring landmarks for generations to come.";
 
-export const defaultOgImage = `${siteUrl}/logokediagroup.png`;
+export const defaultOgImage = `${siteUrl}/opengraph-image`;
 
 export function absoluteUrl(path = "/") {
   if (/^https?:\/\//.test(path)) {
@@ -56,10 +56,10 @@ export function publicPageMetadata({
       url: canonical,
       siteName,
       images: [
-        {
-          url: resolvedImage,
-          alt: `${siteName} real estate projects`,
-        },
+      {
+        url: resolvedImage,
+        alt: `${siteName} — Proudly Building Rajasthan`,
+      },
       ],
       locale: "en_IN",
       type: "website",
