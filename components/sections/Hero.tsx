@@ -4,14 +4,13 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const heroImage =
-  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2200&h=1400&fit=crop&crop=entropy&auto=format&q=84";
+const heroImage = "/home-page-hero.webp";
 
 const rotatingWords = [
   "Community",
   "Homes",
   "Trust",
-  "Values",
+  "Value",
   "Foundations",
   "Dreams",
 ];
@@ -78,7 +77,7 @@ export function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden bg-architectural-black text-white">
       <Image
         src={heroImage}
-        alt="High-rise commercial development viewed from below"
+        alt="Kedia Group real estate projects across Jaipur and Rajasthan"
         fill
         priority
         sizes="100vw"

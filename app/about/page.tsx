@@ -4,12 +4,14 @@ import Image from "next/image";
 import { Stats } from "@/components/sections/Stats";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { publicPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata: Metadata = publicPageMetadata({
+  title: "About Kedia Group",
   description:
-    "Learn about Kedia Group's premium real estate development approach.",
-};
+    "Learn about Kedia Group's trust-led real estate development approach, leadership, and long-term commitment to planned projects in Jaipur and Rajasthan.",
+  path: "/about",
+});
 
 const image =
   "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80";
@@ -38,7 +40,7 @@ export default function AboutPage() {
           <div className="relative aspect-[16/9] overflow-hidden bg-cool-mist">
             <Image
               src={image}
-              alt="Elegant living room with warm materials and large windows"
+              alt="Premium residential interior representing Kedia Group's planned real estate approach"
               fill
               priority
               sizes="100vw"

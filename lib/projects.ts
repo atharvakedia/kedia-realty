@@ -220,6 +220,34 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   return data ? mapProject(data as ProjectWithLayoutRows) : null;
 }
 
+export async function getPublishedProjectSitemapEntries(): Promise<
+  Array<{ slug: string; updatedAt: string }>
+> {
+  if (!hasSupabaseEnv()) {
+    return [];
+  }
+
+  const supabase = createPublicSupabaseClient();
+  const { data, error } = await supabase
+    .from("projects")
+    .select("slug, updated_at")
+    .eq("is_published", true)
+    .order("display_order", { ascending: true })
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    if (!isExpectedSchemaMismatch(error)) {
+      console.error("Failed to load project sitemap entries", error);
+    }
+    return [];
+  }
+
+  return (data ?? []).map((project) => ({
+    slug: String(project.slug),
+    updatedAt: String(project.updated_at),
+  }));
+}
+
 export async function getAdminProjects(): Promise<Project[]> {
   if (!hasSupabaseEnv()) {
     return [];

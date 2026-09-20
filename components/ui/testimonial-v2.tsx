@@ -131,7 +131,7 @@ function TestimonialsColumn({
                         "0 25px 50px -12px rgba(28, 28, 28, 0.12), 0 0 0 1px rgba(28, 28, 28, 0.05)",
                     }
                 }
-                className="w-[calc((100vw-3.5rem)/2)] max-w-[11rem] cursor-default border border-border-gray bg-white p-4 shadow-lg shadow-deep-navy/5 transition focus:outline-none focus:ring-2 focus:ring-primary-navy/30 sm:w-full sm:max-w-xs sm:p-8"
+                className="w-[calc((100vw-3.5rem)/2)] max-w-[11rem] cursor-default rounded-2xl border border-border-gray bg-white p-4 shadow-lg shadow-deep-navy/5 transition focus:outline-none focus:ring-2 focus:ring-primary-navy/30 sm:w-full sm:max-w-xs sm:rounded-3xl sm:p-8"
               >
                 <blockquote>
                   <p className="m-0 text-[0.68rem] leading-5 text-slate-gray sm:text-sm sm:leading-7">

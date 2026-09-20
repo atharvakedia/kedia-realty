@@ -150,7 +150,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
                   height={147}
                   priority
                   className={cn(
-                    "h-12 w-auto object-contain md:h-14",
+                    "h-14 w-auto object-contain md:h-16 lg:h-[4.5rem]",
                     isHome && "brightness-0 invert",
                   )}
                 />
