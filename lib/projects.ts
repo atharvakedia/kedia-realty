@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 import { projects as fallbackProjects } from "@/lib/data";
 import { createPublicSupabaseClient } from "@/lib/supabase/public";
@@ -8,10 +9,12 @@ import {
   projectStatuses,
   projectTypes,
   type AdminProfile,
+  type AdminProjectSummary,
   type Project,
   type ProjectFormInput,
   type ProjectLayout,
   type ProjectLayoutRow,
+  type ProjectRow,
   type ProjectStatus,
   type ProjectType,
   type ProjectWithLayoutRows,
@@ -248,7 +251,22 @@ export async function getPublishedProjectSitemapEntries(): Promise<
   }));
 }
 
-export async function getAdminProjects(): Promise<Project[]> {
+type AdminProjectSummaryRow = Pick<
+  ProjectRow,
+  | "id"
+  | "title"
+  | "slug"
+  | "type"
+  | "status"
+  | "region"
+  | "is_published"
+  | "is_featured"
+  | "updated_at"
+>;
+
+export async function getAdminProjects(): Promise<AdminProjectSummary[]> {
+  await requireAdmin();
+
   if (!hasSupabaseEnv()) {
     return [];
   }
@@ -256,7 +274,9 @@ export async function getAdminProjects(): Promise<Project[]> {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("projects")
-    .select(projectSelect)
+    .select(
+      "id, title, slug, type, status, region, is_published, is_featured, updated_at",
+    )
     .order("display_order", { ascending: true })
     .order("updated_at", { ascending: false });
 
@@ -264,10 +284,22 @@ export async function getAdminProjects(): Promise<Project[]> {
     throw new Error(error.message);
   }
 
-  return ((data ?? []) as ProjectWithLayoutRows[]).map(mapProject);
+  return ((data ?? []) as AdminProjectSummaryRow[]).map((project) => ({
+    id: project.id,
+    title: project.title,
+    slug: project.slug,
+    type: asProjectType(project.type),
+    status: asProjectStatus(project.status),
+    region: project.region,
+    isPublished: project.is_published,
+    isFeatured: project.is_featured,
+    updatedAt: project.updated_at,
+  }));
 }
 
 export async function getAdminProjectById(id: string): Promise<Project | null> {
+  await requireAdmin();
+
   if (!hasSupabaseEnv()) {
     return null;
   }
@@ -286,24 +318,23 @@ export async function getAdminProjectById(id: string): Promise<Project | null> {
   return data ? mapProject(data as ProjectWithLayoutRows) : null;
 }
 
-async function getCurrentAdminProfile(): Promise<AdminProfile | null> {
+const getCurrentAdminProfile = cache(async (): Promise<AdminProfile | null> => {
   if (!hasSupabaseEnv()) {
     return null;
   }
 
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: claimsData } = await supabase.auth.getClaims();
+  const userId = claimsData?.claims.sub;
 
-  if (!user) {
+  if (!userId) {
     return null;
   }
 
   const { data, error } = await supabase
     .from("admin_profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", userId)
     .maybeSingle();
 
   if (error || !data) {
@@ -317,7 +348,7 @@ async function getCurrentAdminProfile(): Promise<AdminProfile | null> {
     createdAt: data.created_at,
     updatedAt: data.updated_at,
   };
-}
+});
 
 export async function requireAdmin() {
   const profile = await getCurrentAdminProfile();
@@ -405,24 +436,25 @@ export async function createProject(input: ProjectFormInput) {
   const layouts = input.layouts ?? [];
   const images = imagePayloads(data.id, input);
 
-  if (images.length > 0) {
-    const { error: imagesError } = await supabase
-      .from("project_images")
-      .insert(images);
+  const [imagesError, layoutsError] = await Promise.all([
+    images.length > 0
+      ? supabase
+          .from("project_images")
+          .insert(images)
+          .then(({ error }) => error)
+      : null,
+    layouts.length > 0
+      ? supabase
+          .from("project_layouts")
+          .insert(layouts.map((layout, index) => layoutPayload(data.id, layout, index)))
+          .then(({ error }) => error)
+      : null,
+  ]);
 
-    if (imagesError) {
-      throw new Error(imagesError.message);
-    }
-  }
+  const relatedWriteError = imagesError ?? layoutsError;
 
-  if (layouts.length > 0) {
-    const { error: layoutsError } = await supabase
-      .from("project_layouts")
-      .insert(layouts.map((layout, index) => layoutPayload(data.id, layout, index)));
-
-    if (layoutsError) {
-      throw new Error(layoutsError.message);
-    }
+  if (relatedWriteError) {
+    throw new Error(relatedWriteError.message);
   }
 
   return data.id as string;
@@ -441,45 +473,47 @@ export async function updateProject(id: string, input: ProjectFormInput) {
     throw new Error(error.message);
   }
 
-  const { error: deleteError } = await supabase
-    .from("project_layouts")
-    .delete()
-    .eq("project_id", id);
+  const [deleteLayoutsError, deleteImagesError] = await Promise.all([
+    supabase
+      .from("project_layouts")
+      .delete()
+      .eq("project_id", id)
+      .then(({ error }) => error),
+    supabase
+      .from("project_images")
+      .delete()
+      .eq("project_id", id)
+      .then(({ error }) => error),
+  ]);
 
-  if (deleteError) {
-    throw new Error(deleteError.message);
-  }
+  const relatedDeleteError = deleteLayoutsError ?? deleteImagesError;
 
-  const { error: deleteImagesError } = await supabase
-    .from("project_images")
-    .delete()
-    .eq("project_id", id);
-
-  if (deleteImagesError) {
-    throw new Error(deleteImagesError.message);
+  if (relatedDeleteError) {
+    throw new Error(relatedDeleteError.message);
   }
 
   const images = imagePayloads(id, input);
 
-  if (images.length > 0) {
-    const { error: imagesError } = await supabase
-      .from("project_images")
-      .insert(images);
-
-    if (imagesError) {
-      throw new Error(imagesError.message);
-    }
-  }
-
   const layouts = input.layouts ?? [];
 
-  if (layouts.length > 0) {
-    const { error: layoutsError } = await supabase
-      .from("project_layouts")
-      .insert(layouts.map((layout, index) => layoutPayload(id, layout, index)));
+  const [imagesError, layoutsError] = await Promise.all([
+    images.length > 0
+      ? supabase
+          .from("project_images")
+          .insert(images)
+          .then(({ error }) => error)
+      : null,
+    layouts.length > 0
+      ? supabase
+          .from("project_layouts")
+          .insert(layouts.map((layout, index) => layoutPayload(id, layout, index)))
+          .then(({ error }) => error)
+      : null,
+  ]);
 
-    if (layoutsError) {
-      throw new Error(layoutsError.message);
-    }
+  const relatedWriteError = imagesError ?? layoutsError;
+
+  if (relatedWriteError) {
+    throw new Error(relatedWriteError.message);
   }
 }

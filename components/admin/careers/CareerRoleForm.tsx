@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState } from "react";
 
 import type { CareerActionState } from "@/app/admin/careers/actions";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import {
   careerDepartments,
   employmentTypes,
@@ -192,9 +193,13 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
         <button
           type="submit"
           disabled={isPending}
-          className="min-h-12 bg-primary-navy px-7 text-sm font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-steel-blue disabled:cursor-not-allowed disabled:opacity-60"
+          aria-busy={isPending}
+          className="min-h-12 bg-primary-navy px-7 text-sm font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-60"
         >
-          {isPending ? "Saving..." : submitLabel}
+          <span className="inline-flex items-center justify-center gap-2">
+            {isPending ? <LoadingSpinner /> : null}
+            {isPending ? "Saving" : submitLabel}
+          </span>
         </button>
       </div>
     </form>

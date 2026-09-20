@@ -13,21 +13,19 @@ type AdminLeadsPageProps = {
 export default async function AdminLeadsPage({
   searchParams,
 }: AdminLeadsPageProps) {
-  const [{ status }, profile] = await Promise.all([searchParams, requireAdmin()]);
+  const [{ status }, profile, leads] = await Promise.all([
+    searchParams,
+    requireAdmin(),
+    getAdminLeads(),
+  ]);
   const activeStatus = leadStatuses.includes(status as LeadStatus)
     ? (status as LeadStatus)
     : "new";
 
-  const [newLeads, activeLeads, archivedLeads] = await Promise.all([
-    getAdminLeads("new"),
-    getAdminLeads("active"),
-    getAdminLeads("archived"),
-  ]);
-
   const leadsByStatus = {
-    new: newLeads,
-    active: activeLeads,
-    archived: archivedLeads,
+    new: leads.filter((lead) => lead.status === "new"),
+    active: leads.filter((lead) => lead.status === "active"),
+    archived: leads.filter((lead) => lead.status === "archived"),
   };
 
   return (
@@ -36,9 +34,9 @@ export default async function AdminLeadsPage({
         leads={leadsByStatus[activeStatus]}
         activeStatus={activeStatus}
         counts={{
-          new: newLeads.length,
-          active: activeLeads.length,
-          archived: archivedLeads.length,
+          new: leadsByStatus.new.length,
+          active: leadsByStatus.active.length,
+          archived: leadsByStatus.archived.length,
         }}
       />
     </AdminShell>

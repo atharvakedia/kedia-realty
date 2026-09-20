@@ -25,8 +25,10 @@ const dashboardCards = [
 ];
 
 export default async function AdminPage() {
-  const profile = await requireAdmin();
-  const newLeadsCount = await getNewLeadsCount();
+  const [profile, newLeadsCount] = await Promise.all([
+    requireAdmin(),
+    getNewLeadsCount(),
+  ]);
 
   return (
     <AdminShell profile={profile} title="Dashboard">

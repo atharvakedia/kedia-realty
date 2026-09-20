@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ContactForm } from "@/app/contact/ContactForm";
+import { ContactForm } from "@/app/(site)/contact/ContactForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { publicPageMetadata } from "@/lib/seo";

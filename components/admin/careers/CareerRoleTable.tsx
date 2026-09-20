@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { deleteCareerRoleAction } from "@/app/admin/careers/actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import type { CareerRole } from "@/lib/types";
 
 export function CareerRoleTable({ roles }: { roles: CareerRole[] }) {
@@ -59,12 +60,11 @@ export function CareerRoleTable({ roles }: { roles: CareerRole[] }) {
                     </Link>
                     <form action={deleteCareerRoleAction}>
                       <input type="hidden" name="id" value={role.id} />
-                      <button
-                        type="submit"
+                      <AdminSubmitButton
+                        label="Delete"
+                        pendingLabel="Deleting"
                         className="inline-flex min-h-10 items-center border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-red-700 hover:text-red-700"
-                      >
-                        Delete
-                      </button>
+                      />
                     </form>
                   </div>
                 </td>

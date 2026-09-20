@@ -13,9 +13,11 @@ type EditProjectPageProps = {
 };
 
 export default async function EditProjectPage({ params }: EditProjectPageProps) {
-  const profile = await requireAdmin();
   const { id } = await params;
-  const project = await getAdminProjectById(id);
+  const [profile, project] = await Promise.all([
+    requireAdmin(),
+    getAdminProjectById(id),
+  ]);
 
   if (!project) {
     notFound();

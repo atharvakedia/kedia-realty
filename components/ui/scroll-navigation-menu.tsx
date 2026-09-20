@@ -58,6 +58,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [hoveredItem, setHoveredItem] = React.useState<number | null>(null);
+  const menuDialogRef = React.useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -65,6 +66,52 @@ export const Component: React.FC<ScrollNavbarProps> = ({
   });
 
   const toggleMenu = () => setIsMenuOpen((value) => !value);
+
+  React.useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    const dialog = menuDialogRef.current;
+    const focusableElements = dialog?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+
+    document.body.style.overflow = "hidden";
+    focusableElements?.[0]?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !focusableElements?.length) {
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [isMenuOpen]);
 
   const menuVariants: Variants = {
     closed: {
@@ -148,7 +195,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
                   alt="Kedia Group"
                   width={260}
                   height={147}
-                  priority
+                  loading="eager"
                   className={cn(
                     "h-14 w-auto object-contain md:h-16 lg:h-[4.5rem]",
                     isHome && "brightness-0 invert",
@@ -219,6 +266,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
               whileTap={{ scale: 0.92 }}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMenuOpen}
+              tabIndex={isScrolled ? -1 : 0}
             >
               <MenuToggleIcon open={isMenuOpen} className="size-6" duration={500} />
             </motion.button>
@@ -245,6 +293,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
           whileTap={{ scale: 0.92 }}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
+          tabIndex={isScrolled ? 0 : -1}
         >
           <MenuToggleIcon open={isMenuOpen} className="size-7" duration={500} />
         </motion.button>
@@ -259,14 +308,19 @@ export const Component: React.FC<ScrollNavbarProps> = ({
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-40 bg-architectural-black/40 backdrop-blur-sm"
               onClick={toggleMenu}
+              aria-hidden="true"
             />
 
             <motion.div
+              ref={menuDialogRef}
               variants={menuVariants}
               initial="closed"
               animate="open"
               exit="closed"
               className="fixed left-1/2 top-1/2 z-50 w-[min(calc(100vw-3rem),17rem)] -translate-x-1/2 -translate-y-1/2"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site navigation"
             >
               <div className="relative border border-border-gray bg-white px-4 py-11 text-center shadow-[0_30px_100px_rgba(4,43,76,0.25)]">
                 <motion.button

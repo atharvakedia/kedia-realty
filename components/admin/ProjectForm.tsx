@@ -6,6 +6,7 @@ import type { ProjectActionState } from "@/app/admin/projects/actions";
 import { AmenitySelector } from "@/components/admin/AmenitySelector";
 import { LayoutImageUploader } from "@/components/admin/LayoutImageUploader";
 import { ProjectImageManager } from "@/components/admin/ProjectImageManager";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import {
   projectStatuses,
   projectTypes,
@@ -416,9 +417,13 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
         <button
           type="submit"
           disabled={isPending}
-          className="min-h-12 bg-primary-navy px-7 text-sm font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-steel-blue disabled:cursor-not-allowed disabled:opacity-60"
+          aria-busy={isPending}
+          className="min-h-12 bg-primary-navy px-7 text-sm font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-60"
         >
-          {isPending ? "Saving..." : submitLabel}
+          <span className="inline-flex items-center justify-center gap-2">
+            {isPending ? <LoadingSpinner /> : null}
+            {isPending ? "Saving" : submitLabel}
+          </span>
         </button>
       </div>
     </form>

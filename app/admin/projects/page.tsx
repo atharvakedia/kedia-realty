@@ -7,8 +7,10 @@ import { getAdminProjects, requireAdmin } from "@/lib/projects";
 export const dynamic = "force-dynamic";
 
 export default async function AdminProjectsPage() {
-  const profile = await requireAdmin();
-  const projects = await getAdminProjects();
+  const [profile, projects] = await Promise.all([
+    requireAdmin(),
+    getAdminProjects(),
+  ]);
 
   return (
     <AdminShell profile={profile} title="Projects">

@@ -79,7 +79,7 @@ export function Hero() {
         src={heroImage}
         alt="Kedia Group real estate projects across Jaipur and Rajasthan"
         fill
-        priority
+        loading="eager"
         sizes="100vw"
         className="object-cover"
       />

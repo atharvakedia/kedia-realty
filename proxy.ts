@@ -124,35 +124,22 @@ export async function proxy(request: NextRequest) {
     },
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: claimsData } = await supabase.auth.getClaims();
+  const userId = claimsData?.claims.sub;
 
   if (adminPath !== "/admin/login") {
-    if (!user) {
+    if (!userId) {
       return NextResponse.redirect(
         adminDestination(request, visiblePath("/login")),
       );
     }
-
-    const { data: profile } = await supabase
-      .from("admin_profiles")
-      .select("id")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    if (!profile) {
-      const loginUrl = adminDestination(request, visiblePath("/login"));
-      loginUrl.searchParams.set("unauthorized", "1");
-      return NextResponse.redirect(loginUrl);
-    }
   }
 
-  if (adminPath === "/admin/login" && user) {
+  if (adminPath === "/admin/login" && userId) {
     const { data: profile } = await supabase
       .from("admin_profiles")
       .select("id")
-      .eq("id", user.id)
+      .eq("id", userId)
       .maybeSingle();
 
     if (profile) {

@@ -13,6 +13,7 @@ import {
   storagePathFromPublicUrl,
   uniqueNonEmptyValues,
 } from "@/lib/storage";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 type ProjectImageManagerProps = {
   initialImages?: string[];
@@ -47,33 +48,32 @@ export function ProjectImageManager({
     try {
       const supabase = createSupabaseBrowserClient();
       const projectFolder = slug || "draft-project";
-      const uploadedUrls: string[] = [];
+      const imageFiles = Array.from(files).filter((file) =>
+        file.type.startsWith("image/"),
+      );
+      const uploadedUrls = await Promise.all(
+        imageFiles.map(async (file) => {
+          const path = `projects/${projectFolder}/${createStorageObjectName(
+            file.name,
+            "project-image",
+          )}`;
+          const { error } = await supabase.storage
+            .from(projectImagesBucket)
+            .upload(path, file, {
+              cacheControl: "31536000",
+              upsert: false,
+            });
 
-      for (const file of Array.from(files)) {
-        if (!file.type.startsWith("image/")) {
-          continue;
-        }
+          if (error) {
+            throw error;
+          }
 
-        const path = `projects/${projectFolder}/${createStorageObjectName(
-          file.name,
-          "project-image",
-        )}`;
-        const { error } = await supabase.storage
-          .from(projectImagesBucket)
-          .upload(path, file, {
-            cacheControl: "31536000",
-            upsert: false,
-          });
-
-        if (error) {
-          throw error;
-        }
-
-        const { data } = supabase.storage
-          .from(projectImagesBucket)
-          .getPublicUrl(path);
-        uploadedUrls.push(data.publicUrl);
-      }
+          const { data } = supabase.storage
+            .from(projectImagesBucket)
+            .getPublicUrl(path);
+          return data.publicUrl;
+        }),
+      );
 
       setImages((current) => uniqueNonEmptyValues([...current, ...uploadedUrls]));
       setMessage(
@@ -136,9 +136,13 @@ export function ProjectImageManager({
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={isUploading || !canUpload}
-            className="min-h-11 border border-primary-navy bg-primary-navy px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-steel-blue disabled:cursor-not-allowed disabled:opacity-50"
+            aria-busy={isUploading}
+            className="min-h-11 border border-primary-navy bg-primary-navy px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-50"
           >
-            {isUploading ? "Uploading..." : "Upload images"}
+            <span className="inline-flex items-center justify-center gap-2">
+              {isUploading ? <LoadingSpinner /> : null}
+              {isUploading ? "Uploading" : "Upload images"}
+            </span>
           </button>
         </div>
         <input
