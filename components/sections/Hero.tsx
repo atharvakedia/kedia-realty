@@ -101,13 +101,13 @@ export function Hero() {
           </motion.p>
           <motion.h1
             variants={item}
-            className="mt-6 max-w-5xl font-display text-5xl leading-[0.92] text-white sm:text-7xl lg:text-8xl xl:text-9xl"
+            className="mt-6 max-w-5xl font-display text-6xl leading-[0.9] text-white sm:text-7xl lg:text-8xl xl:text-9xl"
           >
             We Build <HeroWordCarousel reduceMotion={Boolean(reduceMotion)} />
           </motion.h1>
           <motion.p
             variants={item}
-            className="mt-7 max-w-2xl text-base leading-8 text-white/76 md:text-lg"
+            className="mt-7 max-w-2xl text-sm leading-6 text-white/76 md:text-lg md:leading-8"
           >
             Kedia Group develops disciplined real estate formats across
             townships, apartments, villas, commercial spaces, farm developments,
