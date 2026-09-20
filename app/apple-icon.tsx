@@ -1,12 +1,12 @@
 import { renderBrandIcon } from "@/lib/brand-icon";
 
 export const size = {
-  width: 512,
-  height: 512,
+  width: 180,
+  height: 180,
 };
 
 export const contentType = "image/png";
 
-export default function Icon() {
+export default function AppleIcon() {
   return renderBrandIcon(size.width);
 }

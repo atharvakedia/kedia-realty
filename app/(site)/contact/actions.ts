@@ -1,7 +1,12 @@
 "use server";
 
 import { createContactLead } from "@/lib/leads";
-import { formText, isValidEmail } from "@/lib/forms";
+import {
+  FIELD_LIMITS,
+  formText,
+  isHoneypotTripped,
+  isValidEmail,
+} from "@/lib/forms";
 
 export type ContactActionState = {
   error?: string;
@@ -15,14 +20,21 @@ export type ContactActionState = {
   };
 };
 
+const SUCCESS_MESSAGE =
+  "Your inquiry has been received. Our team will get back to you shortly.";
+
 export async function submitContactLeadAction(
   _previousState: ContactActionState,
   formData: FormData,
 ): Promise<ContactActionState> {
-  const name = formText(formData, "name");
-  const email = formText(formData, "email");
-  const phone = formText(formData, "phone").replace(/\D/g, "");
-  const message = formText(formData, "message");
+  if (isHoneypotTripped(formData)) {
+    return { success: SUCCESS_MESSAGE };
+  }
+
+  const name = formText(formData, "name", FIELD_LIMITS.name);
+  const email = formText(formData, "email", FIELD_LIMITS.email);
+  const phone = formText(formData, "phone", FIELD_LIMITS.phone).replace(/\D/g, "");
+  const message = formText(formData, "message", FIELD_LIMITS.message);
   const values = { name, email, phone, message };
   const fieldErrors: Record<string, string> = {};
 
@@ -53,17 +65,12 @@ export async function submitContactLeadAction(
   try {
     await createContactLead({ name, email, phone, message });
   } catch (error) {
+    console.error("Contact lead submission failed", error);
     return {
-      error:
-        error instanceof Error
-          ? error.message
-          : "Unable to submit your inquiry.",
+      error: "Unable to submit your inquiry right now. Please try again shortly.",
       values,
     };
   }
 
-  return {
-    success:
-      "Your inquiry has been received. Our team will get back to you shortly.",
-  };
+  return { success: SUCCESS_MESSAGE };
 }

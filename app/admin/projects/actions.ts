@@ -34,6 +34,27 @@ function allText(formData: FormData, key: string) {
     .filter(Boolean);
 }
 
+// The map URL is rendered inside an <iframe>, so it must be pinned to Google
+// Maps origins (mirrored by the CSP frame-src directive in next.config.ts).
+const ALLOWED_MAP_EMBED_HOSTS = new Set([
+  "www.google.com",
+  "google.com",
+  "maps.google.com",
+]);
+
+function isAllowedMapEmbedUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return (
+      url.protocol === "https:" &&
+      ALLOWED_MAP_EMBED_HOSTS.has(url.hostname) &&
+      url.pathname.startsWith("/maps")
+    );
+  } catch {
+    return false;
+  }
+}
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -121,6 +142,10 @@ function validateProject(input: ProjectFormInput) {
 
   if (missing) {
     return `${missing[0]} is required.`;
+  }
+
+  if (input.mapEmbedUrl && !isAllowedMapEmbedUrl(input.mapEmbedUrl)) {
+    return "Map embed URL must be a Google Maps embed link (https://www.google.com/maps/...).";
   }
 
   return null;
