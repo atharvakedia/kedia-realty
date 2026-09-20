@@ -12,5 +12,5 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return <main className="flex-1">{children}</main>;
 }

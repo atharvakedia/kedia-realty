@@ -15,8 +15,11 @@ type EditCareerRolePageProps = {
 export default async function EditCareerRolePage({
   params,
 }: EditCareerRolePageProps) {
-  const [{ id }, profile] = await Promise.all([params, requireAdmin()]);
-  const role = await getAdminCareerRoleById(id);
+  const { id } = await params;
+  const [profile, role] = await Promise.all([
+    requireAdmin(),
+    getAdminCareerRoleById(id),
+  ]);
 
   if (!role) {
     notFound();

@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 
-import { SiteChrome } from "@/components/layout/SiteChrome";
-import { JsonLd } from "@/components/seo/JsonLd";
 import {
   defaultOgImage,
   defaultSeoDescription,
   siteName,
   siteUrl,
 } from "@/lib/seo";
-import { organizationJsonLd } from "@/lib/structured-data";
 
 import "./globals.css";
 
@@ -69,8 +66,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-soft-white text-charcoal-text antialiased">
-        <JsonLd data={organizationJsonLd()} />
-        <SiteChrome>{children}</SiteChrome>
+        {children}
       </body>
     </html>
   );

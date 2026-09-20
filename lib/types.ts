@@ -59,6 +59,11 @@ export type Project = {
   updatedAt?: string;
 };
 
+export type AdminProjectSummary = Pick<
+  Project,
+  "id" | "title" | "slug" | "type" | "status" | "region" | "isPublished" | "isFeatured" | "updatedAt"
+>;
+
 export type ProjectRow = {
   id: string;
   title: string;

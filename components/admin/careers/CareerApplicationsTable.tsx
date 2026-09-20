@@ -1,4 +1,5 @@
 import { deleteCareerApplicationAction } from "@/app/admin/careers/actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import type { CareerApplication } from "@/lib/types";
 
 export function CareerApplicationsTable({
@@ -89,12 +90,11 @@ export function CareerApplicationsTable({
               ) : null}
               <form action={deleteCareerApplicationAction}>
                 <input type="hidden" name="id" value={application.id} />
-                <button
-                  type="submit"
+                <AdminSubmitButton
+                  label="Delete"
+                  pendingLabel="Deleting"
                   className="inline-flex min-h-11 w-full items-center justify-center border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-red-700 hover:text-red-700"
-                >
-                  Delete
-                </button>
+                />
               </form>
             </div>
           </div>

@@ -1,15 +1,18 @@
 import { AdminShell } from "@/components/admin/AdminShell";
 import { CareersAdminTabs } from "@/components/admin/careers/CareersAdminTabs";
 import { CareerApplicationsTable } from "@/components/admin/careers/CareerApplicationsTable";
-import { getAdminCareerApplications, getAdminCareerRoles } from "@/lib/careers";
+import {
+  getAdminCareerApplications,
+  getAdminCareerRoleCount,
+} from "@/lib/careers";
 import { requireAdmin } from "@/lib/projects";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminCareerApplicationsPage() {
-  const profile = await requireAdmin();
-  const [roles, applications] = await Promise.all([
-    getAdminCareerRoles(),
+  const [profile, rolesCount, applications] = await Promise.all([
+    requireAdmin(),
+    getAdminCareerRoleCount(),
     getAdminCareerApplications(),
   ]);
 
@@ -18,7 +21,7 @@ export default async function AdminCareerApplicationsPage() {
       <div className="mb-6">
         <CareersAdminTabs
           activeId="applications"
-          rolesCount={roles.length}
+          rolesCount={rolesCount}
           applicationsCount={applications.length}
         />
       </div>

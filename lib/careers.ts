@@ -144,6 +144,29 @@ export async function getAdminCareerRoles(): Promise<CareerRole[]> {
   return ((data ?? []) as CareerRoleRow[]).map(mapCareerRole);
 }
 
+export async function getAdminCareerRoleCount() {
+  await requireAdmin();
+
+  if (!hasSupabaseEnv()) {
+    return 0;
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { count, error } = await supabase
+    .from("career_roles")
+    .select("id", { count: "exact", head: true });
+
+  if (error) {
+    if (isMissingCareersSchema(error)) {
+      return 0;
+    }
+
+    throw new Error(error.message);
+  }
+
+  return count ?? 0;
+}
+
 export async function getAdminCareerRoleById(id: string): Promise<CareerRole | null> {
   await requireAdmin();
 
@@ -224,23 +247,50 @@ export async function getAdminCareerApplications(): Promise<CareerApplication[]>
   }
 
   const applications = ((data ?? []) as CareerApplicationRow[]).map(mapCareerApplication);
+  const privateResumePaths = applications
+    .map((application) => application.resumeUrl)
+    .filter((resumeUrl) => !/^https?:\/\//.test(resumeUrl));
 
-  return Promise.all(
-    applications.map(async (application) => {
-      if (/^https?:\/\//.test(application.resumeUrl)) {
-        return application;
-      }
+  if (privateResumePaths.length === 0) {
+    return applications;
+  }
 
-      const { data: signedResume } = await supabase.storage
-        .from("career-resumes")
-        .createSignedUrl(application.resumeUrl, 60 * 15);
-
-      return {
-        ...application,
-        resumeUrl: signedResume?.signedUrl ?? "#",
-      };
-    }),
+  const { data: signedResumes } = await supabase.storage
+    .from("career-resumes")
+    .createSignedUrls(privateResumePaths, 60 * 15);
+  const signedUrlByPath = new Map(
+    (signedResumes ?? []).map((resume) => [resume.path, resume.signedUrl]),
   );
+
+  return applications.map((application) => ({
+    ...application,
+    resumeUrl: /^https?:\/\//.test(application.resumeUrl)
+      ? application.resumeUrl
+      : signedUrlByPath.get(application.resumeUrl) ?? "#",
+  }));
+}
+
+export async function getAdminCareerApplicationCount() {
+  await requireAdmin();
+
+  if (!hasSupabaseEnv()) {
+    return 0;
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { count, error } = await supabase
+    .from("career_applications")
+    .select("id", { count: "exact", head: true });
+
+  if (error) {
+    if (isMissingCareersSchema(error)) {
+      return 0;
+    }
+
+    throw new Error(error.message);
+  }
+
+  return count ?? 0;
 }
 
 export async function submitCareerApplication(input: {

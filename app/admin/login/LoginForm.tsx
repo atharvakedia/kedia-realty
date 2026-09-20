@@ -7,6 +7,7 @@ import {
   createSupabaseBrowserClient,
   hasSupabaseEnv,
 } from "@/lib/supabase/client";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 type LoginFormProps = {
   setupMissing?: boolean;
@@ -96,9 +97,13 @@ export function LoginForm({ setupMissing, unauthorized }: LoginFormProps) {
       <button
         type="submit"
         disabled={!isConfigured || isPending}
-        className="min-h-12 bg-primary-navy px-6 text-sm font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-steel-blue disabled:cursor-not-allowed disabled:opacity-60"
+        aria-busy={isPending}
+        className="min-h-12 bg-primary-navy px-6 text-sm font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-60"
       >
-        {isPending ? "Signing in..." : "Sign in"}
+        <span className="inline-flex items-center justify-center gap-2">
+          {isPending ? <LoadingSpinner /> : null}
+          {isPending ? "Signing in" : "Sign in"}
+        </span>
       </button>
     </form>
   );

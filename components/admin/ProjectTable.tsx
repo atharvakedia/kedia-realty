@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import type { Project } from "@/lib/types";
+import type { AdminProjectSummary } from "@/lib/types";
 
 type ProjectTableProps = {
-  projects: Project[];
+  projects: AdminProjectSummary[];
 };
 
 export function ProjectTable({ projects }: ProjectTableProps) {
