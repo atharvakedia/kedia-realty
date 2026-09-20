@@ -4,8 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const heroImage =
-  "https://vpuxbvmdhmxvxadctbdq.supabase.co/storage/v1/object/public/project-images/misc/home-page-hero-img.jpg";
+const heroImage = "/home-page-hero.webp";
 
 const rotatingWords = [
   "Community",
