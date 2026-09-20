@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import {
   defaultOgImage,
+  defaultOgImageMeta,
   defaultSeoDescription,
   siteName,
   siteUrl,
@@ -25,12 +26,7 @@ export const metadata: Metadata = {
     description: defaultSeoDescription,
     url: siteUrl,
     siteName,
-    images: [
-      {
-        url: defaultOgImage,
-        alt: `${siteName} — Proudly Building Rajasthan`,
-      },
-    ],
+    images: [defaultOgImageMeta],
     locale: "en_IN",
     type: "website",
   },

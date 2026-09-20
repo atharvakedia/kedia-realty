@@ -12,6 +12,19 @@ export const defaultSeoDescription =
 
 export const defaultOgImage = `${siteUrl}/opengraph-image`;
 
+export const defaultOgImageAlt = `${siteName} — Proudly Building Rajasthan`;
+
+// Explicit dimensions/type let Facebook, WhatsApp and LinkedIn render the card on
+// the very first share instead of fetching the image asynchronously (which shows
+// up in the Sharing Debugger as an "inferred" og:image warning).
+export const defaultOgImageMeta = {
+  url: defaultOgImage,
+  width: 1200,
+  height: 630,
+  type: "image/png",
+  alt: defaultOgImageAlt,
+};
+
 export function absoluteUrl(path = "/") {
   if (/^https?:\/\//.test(path)) {
     return path;
@@ -56,10 +69,9 @@ export function publicPageMetadata({
       url: canonical,
       siteName,
       images: [
-      {
-        url: resolvedImage,
-        alt: `${siteName} — Proudly Building Rajasthan`,
-      },
+        resolvedImage === defaultOgImage
+          ? defaultOgImageMeta
+          : { url: resolvedImage, alt: defaultOgImageAlt },
       ],
       locale: "en_IN",
       type: "website",
