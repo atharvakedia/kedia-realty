@@ -12,7 +12,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteName} | Real Estate Developer Projects in Jaipur & Rajasthan`,
+    default: `Proudly Building Rajasthan | ${siteName}`,
     template: `%s | ${siteName}`,
   },
   description: defaultSeoDescription,
@@ -21,14 +21,14 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
   openGraph: {
-    title: `${siteName} | Real Estate Developer Projects in Jaipur & Rajasthan`,
+    title: `Proudly Building Rajasthan | ${siteName}`,
     description: defaultSeoDescription,
     url: siteUrl,
     siteName,
     images: [
       {
         url: defaultOgImage,
-        alt: `${siteName} logo`,
+        alt: `${siteName} — Proudly Building Rajasthan`,
       },
     ],
     locale: "en_IN",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteName} | Real Estate Developer Projects in Jaipur & Rajasthan`,
+    title: `Proudly Building Rajasthan | ${siteName}`,
     description: defaultSeoDescription,
     images: [defaultOgImage],
   },
