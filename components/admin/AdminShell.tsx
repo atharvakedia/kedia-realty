@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { signOutAction } from "@/app/admin/actions";
 import { AdminBackLink } from "@/components/admin/AdminBackLink";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import type { AdminProfile } from "@/lib/types";
 
 type AdminShellProps = {
@@ -22,7 +23,7 @@ export async function AdminShell({
   const showDashboardBack = title !== "Dashboard";
 
   return (
-    <section className="min-h-[calc(100vh-6rem)] bg-soft-white px-5 py-10 md:px-8">
+    <section className="min-h-dvh bg-soft-white px-5 py-8 md:px-8 md:py-10">
       <div className="mx-auto max-w-7xl">
         <header className="mb-8 border border-border-gray bg-white">
           <div className="flex flex-col gap-5 border-b border-border-gray p-5 md:flex-row md:items-center md:justify-between md:p-6">
@@ -55,12 +56,11 @@ export async function AdminShell({
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <form action={signOutAction}>
-                <button
-                  type="submit"
+                <AdminSubmitButton
+                  label="Sign out"
+                  pendingLabel="Signing out"
                   className="min-h-11 border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.16em] text-slate-gray transition hover:border-primary-navy hover:text-primary-navy"
-                >
-                  Sign out
-                </button>
+                />
               </form>
             </div>
           </div>

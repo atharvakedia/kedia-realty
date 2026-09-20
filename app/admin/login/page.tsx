@@ -17,8 +17,8 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
 
   return (
-    <section className="bg-soft-white px-5 py-16 md:px-8 lg:py-24">
-      <div className="mx-auto max-w-xl border border-border-gray bg-white p-6 shadow-[0_18px_50px_rgba(4,43,76,0.06)] md:p-8">
+    <section className="flex min-h-dvh items-center justify-center bg-soft-white px-5 py-8 md:px-8 md:py-12">
+      <div className="w-full max-w-xl border border-border-gray bg-white p-6 shadow-[0_18px_50px_rgba(4,43,76,0.06)] md:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-navy">
           Kedia Group CMS
         </p>

@@ -13,6 +13,7 @@ import {
   storagePathFromPublicUrl,
   uniqueNonEmptyValues,
 } from "@/lib/storage";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 type ProjectImageManagerProps = {
   initialImages?: string[];
@@ -136,9 +137,13 @@ export function ProjectImageManager({
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={isUploading || !canUpload}
-            className="min-h-11 border border-primary-navy bg-primary-navy px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-steel-blue disabled:cursor-not-allowed disabled:opacity-50"
+            aria-busy={isUploading}
+            className="min-h-11 border border-primary-navy bg-primary-navy px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-50"
           >
-            {isUploading ? "Uploading..." : "Upload images"}
+            <span className="inline-flex items-center justify-center gap-2">
+              {isUploading ? <LoadingSpinner /> : null}
+              {isUploading ? "Uploading" : "Upload images"}
+            </span>
           </button>
         </div>
         <input

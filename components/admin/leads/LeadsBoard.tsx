@@ -1,4 +1,5 @@
 import { updateLeadStatusAction } from "@/app/admin/leads/actions";
+import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import { AnimatedNavigationTabs } from "@/components/ui/animated-navigation-tabs";
 import type { Lead, LeadStatus } from "@/lib/types";
 
@@ -90,12 +91,11 @@ export function LeadsBoard({
                         <input type="hidden" name="id" value={lead.id} />
                         <input type="hidden" name="status" value={tab.status} />
                         <input type="hidden" name="currentStatus" value={activeStatus} />
-                        <button
-                          type="submit"
+                        <AdminSubmitButton
+                          label={`Move to ${tab.label}`}
+                          pendingLabel="Moving"
                           className="inline-flex min-h-11 w-full items-center justify-center border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-primary-navy hover:text-primary-navy"
-                        >
-                          Move to {tab.label}
-                        </button>
+                        />
                       </form>
                     ))}
                 </div>

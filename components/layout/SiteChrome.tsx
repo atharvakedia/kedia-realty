@@ -4,17 +4,14 @@ import { usePathname } from "next/navigation";
 
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
-import { adminHostname } from "@/lib/admin-domain";
 
 type SiteChromeProps = {
   children: React.ReactNode;
+  isAdminHost: boolean;
 };
 
-export function SiteChrome({ children }: SiteChromeProps) {
+export function SiteChrome({ children, isAdminHost }: SiteChromeProps) {
   const pathname = usePathname();
-  const isAdminHost =
-    typeof window !== "undefined" &&
-    window.location.hostname.toLowerCase() === adminHostname;
   const isAdminRoute = isAdminHost || pathname.startsWith("/admin");
 
   if (isAdminRoute) {
@@ -24,7 +21,7 @@ export function SiteChrome({ children }: SiteChromeProps) {
   return (
     <>
       <Navbar />
-      <main className={isAdminRoute || pathname === "/" ? "flex-1" : "flex-1 pt-28"}>
+      <main className={pathname === "/" ? "flex-1" : "flex-1 pt-28"}>
         {children}
       </main>
       <Footer />

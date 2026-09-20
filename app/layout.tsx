@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -56,11 +57,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const requestHeaders = await headers();
+  const isAdminHost = requestHeaders.get("x-kedia-admin-host") === "1";
+
   return (
     <html
       lang="en"
@@ -70,7 +74,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-soft-white text-charcoal-text antialiased">
         <JsonLd data={organizationJsonLd()} />
-        <SiteChrome>{children}</SiteChrome>
+        <SiteChrome isAdminHost={isAdminHost}>{children}</SiteChrome>
       </body>
     </html>
   );
