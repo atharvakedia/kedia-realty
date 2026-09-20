@@ -5,6 +5,17 @@ import { adminHostname, isPublicSiteHostname } from "@/lib/admin-domain";
 
 const ADMIN_REQUEST_HEADER = "x-kedia-admin-host";
 
+// Paths that only ever come from vulnerability scanners (dotfiles, PHP/WordPress
+// tooling, backup dumps). The app never serves these, so drop them before they
+// reach a function invocation. The Vercel WAF should carry the same list so most
+// of this traffic never reaches the edge runtime at all.
+const EXPLOIT_PROBE_PATTERN =
+  /(^|\/)\.(?!well-known(\/|$))[^/]+|\/(wp-admin|wp-login\.php|wp-content|wp-includes|wp-json|xmlrpc\.php|phpmyadmin|phpMyAdmin|pma|mysql|adminer|cgi-bin|vendor|node_modules|config|backup|_ignition|telescope|actuator|solr|jenkins|console)(\/|$)|\.(php[0-9]?|phtml|asp|aspx|jsp|jspx|cgi|pl|sh|sql|sqlite|db|bak|old|orig|save|swp|tar|tgz|gz|zip|rar|7z|log|ini|yml|yaml|toml|env|pem|key|crt)$/i;
+
+function isExploitProbe(pathname: string) {
+  return EXPLOIT_PROBE_PATTERN.test(pathname);
+}
+
 function hasSupabaseEnv() {
   return Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
@@ -55,6 +66,10 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const isAdminHost = hostname === adminHostname;
 
+  if (isExploitProbe(pathname)) {
+    return new NextResponse(null, { status: 404 });
+  }
+
   if (isPublicSiteHostname(hostname) && pathname.startsWith("/admin")) {
     const destination = request.nextUrl.clone();
     destination.hostname = adminHostname;
@@ -84,6 +99,7 @@ export async function proxy(request: NextRequest) {
   }
 
   const adminPath = isAdminHost ? internalAdminPath(pathname) : pathname;
+  const isLoginPath = adminPath === "/admin/login";
   const visiblePath = (path: string) =>
     isAdminHost ? path : path === "/" ? "/admin" : `/admin${path}`;
   const createResponse = () =>
@@ -94,7 +110,7 @@ export async function proxy(request: NextRequest) {
   let response = createResponse();
 
   if (!hasSupabaseEnv()) {
-    if (adminPath !== "/admin/login") {
+    if (!isLoginPath) {
       const loginUrl = adminDestination(request, visiblePath("/login"));
       loginUrl.searchParams.set("setup", "1");
       return NextResponse.redirect(loginUrl);
@@ -127,26 +143,36 @@ export async function proxy(request: NextRequest) {
   const { data: claimsData } = await supabase.auth.getClaims();
   const userId = claimsData?.claims.sub;
 
-  if (adminPath !== "/admin/login") {
-    if (!userId) {
+  if (!userId) {
+    if (!isLoginPath) {
       return NextResponse.redirect(
         adminDestination(request, visiblePath("/login")),
       );
     }
+
+    return response;
   }
 
-  if (adminPath === "/admin/login" && userId) {
-    const { data: profile } = await supabase
-      .from("admin_profiles")
-      .select("id")
-      .eq("id", userId)
-      .maybeSingle();
+  // A Supabase Auth session alone is not enough: the user must also have an
+  // admin_profiles row. Without it, every CMS page is off-limits.
+  const { data: profile } = await supabase
+    .from("admin_profiles")
+    .select("id")
+    .eq("id", userId)
+    .maybeSingle();
 
-    if (profile) {
-      return NextResponse.redirect(
-        adminDestination(request, visiblePath("/")),
-      );
+  if (!profile) {
+    if (!isLoginPath) {
+      const loginUrl = adminDestination(request, visiblePath("/login"));
+      loginUrl.searchParams.set("unauthorized", "1");
+      return NextResponse.redirect(loginUrl);
     }
+
+    return response;
+  }
+
+  if (isLoginPath) {
+    return NextResponse.redirect(adminDestination(request, visiblePath("/")));
   }
 
   return response;

@@ -4,6 +4,7 @@ import { useActionState } from "react";
 
 import { submitCareerApplicationAction } from "@/app/(site)/careers/introduce-yourself/actions";
 import type { CareerRole } from "@/lib/types";
+import { HoneypotField } from "@/components/ui/HoneypotField";
 
 function Field({
   label,
@@ -61,7 +62,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
   const fieldErrors = state.fieldErrors ?? {};
 
   return (
-    <form action={formAction} className="border border-border-gray bg-white p-6 md:p-8">
+    <form action={formAction} className="relative border border-border-gray bg-white p-6 md:p-8">
       {state.error ? (
         <div className="mb-6 border border-red-200 bg-red-50 p-4 text-sm leading-7 text-red-700">
           {state.error}
@@ -72,6 +73,8 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
           {state.success}
         </div>
       ) : null}
+
+      <HoneypotField />
 
       <div className="grid min-w-0 grid-cols-1 gap-5 md:grid-cols-2">
         <Field

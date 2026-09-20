@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 
 import { submitContactLeadAction } from "@/app/(site)/contact/actions";
+import { HoneypotField } from "@/components/ui/HoneypotField";
 
 function Field({
   label,
@@ -62,7 +63,7 @@ export function ContactForm() {
   return (
     <form
       action={formAction}
-      className="grid gap-5 bg-cool-mist p-6 md:p-8"
+      className="relative grid gap-5 bg-cool-mist p-6 md:p-8"
       aria-label="Contact form"
     >
       {state.error ? (
@@ -75,6 +76,8 @@ export function ContactForm() {
           {state.success}
         </div>
       ) : null}
+
+      <HoneypotField />
 
       <div className="grid gap-5 md:grid-cols-2">
         <Field
