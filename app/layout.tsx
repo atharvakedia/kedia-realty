@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 
-import { SiteChrome } from "@/components/layout/SiteChrome";
-import { JsonLd } from "@/components/seo/JsonLd";
 import {
   defaultOgImage,
   defaultSeoDescription,
   siteName,
   siteUrl,
 } from "@/lib/seo";
-import { organizationJsonLd } from "@/lib/structured-data";
 
 import "./globals.css";
 
@@ -57,14 +53,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const requestHeaders = await headers();
-  const isAdminHost = requestHeaders.get("x-kedia-admin-host") === "1";
-
   return (
     <html
       lang="en"
@@ -73,8 +66,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-soft-white text-charcoal-text antialiased">
-        <JsonLd data={organizationJsonLd()} />
-        <SiteChrome isAdminHost={isAdminHost}>{children}</SiteChrome>
+        {children}
       </body>
     </html>
   );

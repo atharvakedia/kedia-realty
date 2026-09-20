@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 
-import { submitCareerApplicationAction } from "@/app/careers/introduce-yourself/actions";
+import { submitCareerApplicationAction } from "@/app/(site)/careers/introduce-yourself/actions";
 import type { CareerRole } from "@/lib/types";
 
 function Field({
@@ -29,7 +29,7 @@ function Field({
   error?: string;
 }) {
   return (
-    <label className="grid gap-2">
+    <label className="grid min-w-0 gap-2">
       <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy">
         {label}
       </span>
@@ -43,7 +43,7 @@ function Field({
         maxLength={maxLength}
         defaultValue={defaultValue}
         aria-invalid={Boolean(error)}
-        className={`min-h-12 border bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy ${
+        className={`min-h-12 w-full min-w-0 border bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy ${
           error ? "border-red-500" : "border-border-gray"
         }`}
       />
@@ -73,7 +73,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
         </div>
       ) : null}
 
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid min-w-0 grid-cols-1 gap-5 md:grid-cols-2">
         <Field
           label="Name"
           name="candidateName"
@@ -110,7 +110,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
           error={fieldErrors.expectedSalary}
         />
 
-        <label className="grid gap-2">
+        <label className="grid min-w-0 gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy">
             Applying for
           </span>
@@ -119,7 +119,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
             required
             defaultValue={values.roleTitle ?? ""}
             aria-invalid={Boolean(fieldErrors.roleTitle)}
-            className={`min-h-12 border bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy ${
+            className={`min-h-12 w-full min-w-0 border bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy ${
               fieldErrors.roleTitle ? "border-red-500" : "border-border-gray"
             }`}
           >
@@ -138,7 +138,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
 
         <input type="hidden" name="roleId" value="" />
 
-        <label className="grid gap-2 md:col-span-2">
+        <label className="grid min-w-0 gap-2 md:col-span-2">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy">
             Resume
           </span>
@@ -149,7 +149,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
             multiple={false}
             accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             aria-invalid={Boolean(fieldErrors.resume)}
-            className={`border bg-white px-4 py-3 text-sm text-charcoal-text file:mr-4 file:border-0 file:bg-primary-navy file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.14em] file:text-white focus:border-primary-navy ${
+            className={`w-full min-w-0 border bg-white px-4 py-3 text-sm text-charcoal-text file:mr-4 file:border-0 file:bg-primary-navy file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.14em] file:text-white focus:border-primary-navy ${
               fieldErrors.resume ? "border-red-500" : "border-border-gray"
             }`}
           />
@@ -173,7 +173,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
           error={fieldErrors.portfolioUrl}
         />
 
-        <label className="grid gap-2 md:col-span-2">
+        <label className="grid min-w-0 gap-2 md:col-span-2">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy">
             Introduce yourself
           </span>
@@ -184,7 +184,7 @@ export function ApplicationForm({ roles }: { roles: CareerRole[] }) {
             placeholder="Tell us about the role you are interested in, your relevant experience, and why Kedia Group feels like the right fit."
             defaultValue={values.message}
             aria-invalid={Boolean(fieldErrors.message)}
-            className={`border bg-white px-4 py-3 text-sm leading-7 text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy ${
+            className={`w-full min-w-0 border bg-white px-4 py-3 text-sm leading-7 text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy ${
               fieldErrors.message ? "border-red-500" : "border-border-gray"
             }`}
           />

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ApplicationForm } from "@/app/careers/introduce-yourself/ApplicationForm";
+import { ApplicationForm } from "@/app/(site)/careers/introduce-yourself/ApplicationForm";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getOpenCareerRoles } from "@/lib/careers";
 
@@ -22,6 +22,7 @@ export default async function IntroduceYourselfPage() {
           <SectionHeading
             eyebrow="Careers"
             title="Introduce yourself to Kedia Group."
+            headingLevel="h1"
             body="Share your resume, the role you are interested in, and the kind of work you want to build with us. We review applications with care and keep strong profiles in consideration for future openings."
           />
         </div>

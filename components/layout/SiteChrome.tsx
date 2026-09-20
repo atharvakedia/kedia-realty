@@ -7,16 +7,10 @@ import { Navbar } from "@/components/layout/Navbar";
 
 type SiteChromeProps = {
   children: React.ReactNode;
-  isAdminHost: boolean;
 };
 
-export function SiteChrome({ children, isAdminHost }: SiteChromeProps) {
+export function SiteChrome({ children }: SiteChromeProps) {
   const pathname = usePathname();
-  const isAdminRoute = isAdminHost || pathname.startsWith("/admin");
-
-  if (isAdminRoute) {
-    return <main className="flex-1">{children}</main>;
-  }
 
   return (
     <>

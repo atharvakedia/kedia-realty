@@ -53,7 +53,7 @@ export function ProjectImageCarousel({
           src={activeImage}
           alt={`${title} project image ${activeIndex + 1}`}
           fill
-          priority
+          loading="eager"
           sizes="100vw"
           className="object-cover"
         />
@@ -107,6 +107,7 @@ export function ProjectImageCarousel({
                   src={image}
                   alt={`${title} thumbnail ${index + 1}`}
                   fill
+                  loading={isActive ? "eager" : "lazy"}
                   sizes="(min-width: 1024px) 12vw, (min-width: 640px) 20vw, 33vw"
                   className="object-cover"
                 />

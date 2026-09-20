@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 
-import { submitContactLeadAction } from "@/app/contact/actions";
+import { submitContactLeadAction } from "@/app/(site)/contact/actions";
 
 function Field({
   label,

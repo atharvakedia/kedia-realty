@@ -38,7 +38,7 @@ export async function AdminShell({
                   alt="Kedia Group"
                   width={150}
                   height={67}
-                  priority
+                  loading="eager"
                   className="h-14 w-auto object-contain md:h-16"
                 />
               </Link>
