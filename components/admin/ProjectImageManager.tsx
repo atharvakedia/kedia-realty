@@ -48,33 +48,32 @@ export function ProjectImageManager({
     try {
       const supabase = createSupabaseBrowserClient();
       const projectFolder = slug || "draft-project";
-      const uploadedUrls: string[] = [];
+      const imageFiles = Array.from(files).filter((file) =>
+        file.type.startsWith("image/"),
+      );
+      const uploadedUrls = await Promise.all(
+        imageFiles.map(async (file) => {
+          const path = `projects/${projectFolder}/${createStorageObjectName(
+            file.name,
+            "project-image",
+          )}`;
+          const { error } = await supabase.storage
+            .from(projectImagesBucket)
+            .upload(path, file, {
+              cacheControl: "31536000",
+              upsert: false,
+            });
 
-      for (const file of Array.from(files)) {
-        if (!file.type.startsWith("image/")) {
-          continue;
-        }
+          if (error) {
+            throw error;
+          }
 
-        const path = `projects/${projectFolder}/${createStorageObjectName(
-          file.name,
-          "project-image",
-        )}`;
-        const { error } = await supabase.storage
-          .from(projectImagesBucket)
-          .upload(path, file, {
-            cacheControl: "31536000",
-            upsert: false,
-          });
-
-        if (error) {
-          throw error;
-        }
-
-        const { data } = supabase.storage
-          .from(projectImagesBucket)
-          .getPublicUrl(path);
-        uploadedUrls.push(data.publicUrl);
-      }
+          const { data } = supabase.storage
+            .from(projectImagesBucket)
+            .getPublicUrl(path);
+          return data.publicUrl;
+        }),
+      );
 
       setImages((current) => uniqueNonEmptyValues([...current, ...uploadedUrls]));
       setMessage(

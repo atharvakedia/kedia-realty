@@ -1,5 +1,7 @@
 import type { Project } from "@/lib/types";
 
+type FilterableProject = Pick<Project, "region" | "type" | "status">;
+
 export const anyProjectFilterValue = "Any";
 
 export type ProjectFilters = {
@@ -24,7 +26,10 @@ export function hasActiveProjectFilters(filters: ProjectFilters) {
   return Object.values(filters).some((value) => value !== anyProjectFilterValue);
 }
 
-export function filterProjects(projects: Project[], filters: ProjectFilters) {
+export function filterProjects<T extends FilterableProject>(
+  projects: T[],
+  filters: ProjectFilters,
+) {
   return projects.filter((project) => {
     const regionMatch =
       filters.region === anyProjectFilterValue || project.region === filters.region;
@@ -37,7 +42,7 @@ export function filterProjects(projects: Project[], filters: ProjectFilters) {
   });
 }
 
-export function getProjectFilterOptions(projects: Project[]) {
+export function getProjectFilterOptions(projects: FilterableProject[]) {
   return {
     regions: uniqueSorted(projects.map((project) => project.region)),
     types: uniqueSorted(projects.map((project) => project.type)),

@@ -3,16 +3,19 @@ import Link from "next/link";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { CareersAdminTabs } from "@/components/admin/careers/CareersAdminTabs";
 import { CareerRoleTable } from "@/components/admin/careers/CareerRoleTable";
-import { getAdminCareerApplications, getAdminCareerRoles } from "@/lib/careers";
+import {
+  getAdminCareerApplicationCount,
+  getAdminCareerRoles,
+} from "@/lib/careers";
 import { requireAdmin } from "@/lib/projects";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminCareersPage() {
-  const profile = await requireAdmin();
-  const [roles, applications] = await Promise.all([
+  const [profile, roles, applicationsCount] = await Promise.all([
+    requireAdmin(),
     getAdminCareerRoles(),
-    getAdminCareerApplications(),
+    getAdminCareerApplicationCount(),
   ]);
 
   return (
@@ -21,7 +24,7 @@ export default async function AdminCareersPage() {
         <CareersAdminTabs
           activeId="roles"
           rolesCount={roles.length}
-          applicationsCount={applications.length}
+          applicationsCount={applicationsCount}
         />
         <Link
           href="/admin/careers/new"

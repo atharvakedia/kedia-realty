@@ -4,19 +4,23 @@ import { useMemo, useState } from "react";
 
 import { ProjectTable } from "@/components/admin/ProjectTable";
 import { ProjectsPagination } from "@/components/projects/ProjectsPagination";
-import { ShiftingDropDown } from "@/components/ui/shifting-dropdown";
 import {
+  anyProjectFilterValue,
   defaultProjectFilters,
   filterProjects,
   getProjectFilterOptions,
   hasActiveProjectFilters,
   type ProjectFilters,
 } from "@/lib/project-filters";
-import type { Project } from "@/lib/types";
+import type { AdminProjectSummary } from "@/lib/types";
 
 const projectsPerPage = 10;
 
-export function AdminProjectsClient({ projects }: { projects: Project[] }) {
+export function AdminProjectsClient({
+  projects,
+}: {
+  projects: AdminProjectSummary[];
+}) {
   const [filters, setFilters] = useState<ProjectFilters>(defaultProjectFilters);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -96,7 +100,26 @@ export function AdminProjectsClient({ projects }: { projects: Project[] }) {
               Reset filters
             </button>
           </div>
-          <ShiftingDropDown tabs={filterTabs} />
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filterTabs.map((filter) => (
+              <label key={filter.id} className="grid gap-2">
+                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-primary-navy">
+                  {filter.title}
+                </span>
+                <select
+                  value={filter.value}
+                  onChange={(event) => filter.onSelect(event.target.value)}
+                  className="min-h-12 w-full border border-border-gray bg-soft-white px-4 text-sm font-semibold text-primary-navy outline-none transition-colors hover:border-silver-shadow focus:border-primary-navy focus:ring-2 focus:ring-primary-navy/15"
+                >
+                  {[anyProjectFilterValue, ...filter.options].map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
+          </div>
         </div>
       </div>
 
