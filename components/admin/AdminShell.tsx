@@ -6,6 +6,7 @@ import { signOutAction } from "@/app/admin/actions";
 import { AdminBackLink } from "@/components/admin/AdminBackLink";
 import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import type { AdminProfile } from "@/lib/types";
+import { adminButton } from "@/lib/admin-ui";
 
 type AdminShellProps = {
   children: ReactNode;
@@ -25,7 +26,7 @@ export async function AdminShell({
   return (
     <section className="min-h-dvh bg-soft-white px-5 py-8 md:px-8 md:py-10">
       <div className="mx-auto max-w-7xl">
-        <header className="mb-8 border border-border-gray bg-white">
+        <header className="rounded-lg mb-8 border border-border-gray bg-white">
           <div className="flex flex-col gap-5 border-b border-border-gray p-5 md:flex-row md:items-center md:justify-between md:p-6">
             <div className="flex items-center gap-4">
               <Link
@@ -61,7 +62,7 @@ export async function AdminShell({
                 <AdminSubmitButton
                   label="Sign out"
                   pendingLabel="Signing out"
-                  className="min-h-11 border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.16em] text-slate-gray transition hover:border-primary-navy hover:text-primary-navy"
+                  className={adminButton("muted")}
                 />
               </form>
             </div>

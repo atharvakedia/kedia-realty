@@ -13,6 +13,7 @@ import {
   type Project,
   type ProjectLayout,
 } from "@/lib/types";
+import { adminButton } from "@/lib/admin-ui";
 
 type ProjectFormProps = {
   action: (
@@ -64,7 +65,7 @@ function Field({
         placeholder={placeholder}
         min={min}
         step={step}
-        className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
+        className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
       />
     </label>
   );
@@ -95,7 +96,7 @@ function TextArea({
         required={required}
         defaultValue={defaultValue}
         rows={rows}
-        className="border border-border-gray bg-white px-4 py-3 text-sm leading-7 text-charcoal-text outline-none transition focus:border-primary-navy"
+        className="rounded-lg border border-border-gray bg-white px-4 py-3 text-sm leading-7 text-charcoal-text outline-none transition focus:border-primary-navy"
       />
       {hint ? <span className="text-xs text-slate-gray">{hint}</span> : null}
     </label>
@@ -171,7 +172,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
       <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="displayOrder" value={project?.displayOrder ?? 0} />
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <h2 className="font-display text-3xl text-charcoal-text">Project basics</h2>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <label className="grid gap-2">
@@ -184,14 +185,14 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               placeholder="Kedia Prakash Avenues"
-              className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
+              className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
             />
           </label>
           <div className="grid gap-2">
             <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy">
               Slug
             </span>
-            <div className="flex min-h-12 items-center border border-border-gray bg-cool-mist px-4 text-sm text-slate-gray">
+            <div className="rounded-lg flex min-h-12 items-center border border-border-gray bg-cool-mist px-4 text-sm text-slate-gray">
               {slug || "Generated automatically from title"}
             </div>
           </div>
@@ -202,7 +203,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
             <select
               name="type"
               defaultValue={project?.type ?? "Residential Township"}
-              className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
+              className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
             >
               {projectTypes.map((type) => (
                 <option key={type} value={type}>
@@ -218,7 +219,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
             <select
               name="status"
               defaultValue={project?.status ?? "Underway"}
-              className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
+              className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
             >
               {projectStatuses.map((status) => (
                 <option key={status} value={status}>
@@ -242,7 +243,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
         </div>
       </section>
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <h2 className="font-display text-3xl text-charcoal-text">Project facts</h2>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <Field
@@ -290,7 +291,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
         </div>
       </section>
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <h2 className="font-display text-3xl text-charcoal-text">Content</h2>
         <div className="mt-6 grid gap-5">
           <TextArea label="Description" name="description" defaultValue={project?.description} />
@@ -310,13 +311,13 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
         </div>
       </section>
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="font-display text-3xl text-charcoal-text">Layouts & plans</h2>
           <button
             type="button"
             onClick={addLayout}
-            className="min-h-10 border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.16em] text-primary-navy transition hover:border-primary-navy"
+            className={adminButton("secondary", "compact")}
           >
             Add layout
           </button>
@@ -346,7 +347,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
                     <input
                       value={String(layout[key] ?? "")}
                       onChange={(event) => updateLayout(index, key, event.target.value)}
-                      className="min-h-11 border border-border-gray bg-white px-4 text-sm outline-none transition focus:border-primary-navy"
+                      className="rounded-lg min-h-11 border border-border-gray bg-white px-4 text-sm outline-none transition focus:border-primary-navy"
                     />
                   </label>
                 ))}
@@ -366,7 +367,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
                       updateLayout(index, "description", event.target.value)
                     }
                     rows={3}
-                    className="border border-border-gray bg-white px-4 py-3 text-sm leading-7 outline-none transition focus:border-primary-navy"
+                    className="rounded-lg border border-border-gray bg-white px-4 py-3 text-sm leading-7 outline-none transition focus:border-primary-navy"
                   />
                 </label>
               </div>
@@ -375,7 +376,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
         </div>
       </section>
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <h2 className="font-display text-3xl text-charcoal-text">Publishing</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <label className="flex items-start gap-3 border border-border-gray p-4">
@@ -418,7 +419,11 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
           type="submit"
           disabled={isPending}
           aria-busy={isPending}
-          className="min-h-12 bg-primary-navy px-7 text-sm font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-60"
+          className={adminButton(
+            "primary",
+            "large",
+            "disabled:cursor-wait disabled:opacity-60",
+          )}
         >
           <span className="inline-flex items-center justify-center gap-2">
             {isPending ? <LoadingSpinner /> : null}

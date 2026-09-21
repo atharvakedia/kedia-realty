@@ -10,6 +10,7 @@ import {
   employmentTypes,
   type CareerRole,
 } from "@/lib/types";
+import { adminButton } from "@/lib/admin-ui";
 
 type CareerRoleFormProps = {
   action: (
@@ -55,7 +56,7 @@ function Field({
         defaultValue={defaultValue}
         required={required}
         placeholder={placeholder}
-        className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
+        className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
       />
     </label>
   );
@@ -76,7 +77,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
 
       <input type="hidden" name="slug" value={slug} />
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <h2 className="font-display text-3xl text-charcoal-text">Role details</h2>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <label className="grid gap-2">
@@ -89,7 +90,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               placeholder="Senior Sales Advisor"
-              className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
+              className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
             />
           </label>
 
@@ -97,7 +98,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
             <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy">
               Slug
             </span>
-            <div className="flex min-h-12 items-center border border-border-gray bg-cool-mist px-4 text-sm text-slate-gray">
+            <div className="rounded-lg flex min-h-12 items-center border border-border-gray bg-cool-mist px-4 text-sm text-slate-gray">
               {slug || "Generated automatically from title"}
             </div>
           </div>
@@ -109,7 +110,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
             <select
               name="department"
               defaultValue={role?.department ?? "Sales"}
-              className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
+              className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
             >
               {careerDepartments.map((department) => (
                 <option key={department} value={department}>
@@ -126,7 +127,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
             <select
               name="employmentType"
               defaultValue={role?.employmentType ?? "Full-time"}
-              className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
+              className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
             >
               {employmentTypes.map((type) => (
                 <option key={type} value={type}>
@@ -145,7 +146,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
         </div>
       </section>
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <h2 className="font-display text-3xl text-charcoal-text">Role content</h2>
         <div className="mt-6 grid gap-5">
           <label className="grid gap-2">
@@ -158,13 +159,13 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
               defaultValue={role?.summary}
               rows={4}
               placeholder="A concise public-facing description of the role."
-              className="border border-border-gray bg-white px-4 py-3 text-sm leading-7 text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
+              className="rounded-lg border border-border-gray bg-white px-4 py-3 text-sm leading-7 text-charcoal-text outline-none transition placeholder:text-slate-gray/60 focus:border-primary-navy"
             />
           </label>
         </div>
       </section>
 
-      <section className="border border-border-gray bg-white p-6 md:p-8">
+      <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <label className="flex items-start gap-3 border border-border-gray p-4">
           <input
             name="isOpen"
@@ -186,7 +187,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
         <Link
           href="/admin/careers"
-          className="inline-flex min-h-12 items-center justify-center border border-border-gray px-7 text-sm font-semibold uppercase tracking-[0.16em] text-slate-gray transition hover:border-primary-navy hover:text-primary-navy"
+          className={adminButton("muted", "large")}
         >
           Cancel
         </Link>
@@ -194,7 +195,11 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
           type="submit"
           disabled={isPending}
           aria-busy={isPending}
-          className="min-h-12 bg-primary-navy px-7 text-sm font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-60"
+          className={adminButton(
+            "primary",
+            "large",
+            "disabled:cursor-wait disabled:opacity-60",
+          )}
         >
           <span className="inline-flex items-center justify-center gap-2">
             {isPending ? <LoadingSpinner /> : null}
