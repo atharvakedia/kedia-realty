@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { adminButton } from "@/lib/admin-ui";
 
 export function AdminBackLink({
   href,
@@ -13,7 +14,7 @@ export function AdminBackLink({
   return (
     <Link
       href={href}
-      className={`inline-flex min-h-11 items-center gap-2 border border-border-gray bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-primary-navy transition hover:border-primary-navy hover:bg-cool-mist ${className}`}
+      className={adminButton("secondary", "default", className)}
     >
       <ArrowLeft className="size-4" aria-hidden="true" />
       {label}

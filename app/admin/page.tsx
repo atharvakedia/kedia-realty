@@ -32,19 +32,11 @@ export default async function AdminPage() {
 
   return (
     <AdminShell profile={profile} title="Dashboard">
-      <div className="mb-6">
-        <Link
-          href="/"
-          className="inline-flex min-h-11 items-center border border-border-gray bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-primary-navy transition hover:border-primary-navy hover:bg-cool-mist"
-        >
-          Go to website
-        </Link>
-      </div>
       <div className="grid gap-5 md:grid-cols-2">
         {dashboardCards.map((card) => {
           return (
             <Link key={card.title} href={card.href}>
-              <div className="h-full border border-border-gray bg-white p-6 transition hover:border-primary-navy">
+              <div className="h-full rounded-lg border border-border-gray bg-white p-6 transition hover:border-primary-navy">
                 <p className="font-display text-3xl text-charcoal-text">{card.title}</p>
                 {card.title === "Leads" && newLeadsCount > 0 ? (
                   <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary-navy">

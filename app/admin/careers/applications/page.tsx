@@ -1,31 +1,9 @@
-import { AdminShell } from "@/components/admin/AdminShell";
-import { CareersAdminTabs } from "@/components/admin/careers/CareersAdminTabs";
-import { CareerApplicationsTable } from "@/components/admin/careers/CareerApplicationsTable";
-import {
-  getAdminCareerApplications,
-  getAdminCareerRoleCount,
-} from "@/lib/careers";
-import { requireAdmin } from "@/lib/projects";
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
-export default async function AdminCareerApplicationsPage() {
-  const [profile, rolesCount, applications] = await Promise.all([
-    requireAdmin(),
-    getAdminCareerRoleCount(),
-    getAdminCareerApplications(),
-  ]);
-
-  return (
-    <AdminShell profile={profile} title="Career applications">
-      <div className="mb-6">
-        <CareersAdminTabs
-          activeId="applications"
-          rolesCount={rolesCount}
-          applicationsCount={applications.length}
-        />
-      </div>
-      <CareerApplicationsTable applications={applications} />
-    </AdminShell>
-  );
+/**
+ * Applications now live in a tab on /admin/careers, where both datasets load
+ * together. This route is kept so existing links and bookmarks still work.
+ */
+export default function AdminCareerApplicationsPage() {
+  redirect("/admin/careers?tab=applications");
 }

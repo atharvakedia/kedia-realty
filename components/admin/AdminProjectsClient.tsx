@@ -13,6 +13,7 @@ import {
   type ProjectFilters,
 } from "@/lib/project-filters";
 import type { AdminProjectSummary } from "@/lib/types";
+import { adminButton } from "@/lib/admin-ui";
 
 const projectsPerPage = 10;
 
@@ -80,7 +81,7 @@ export function AdminProjectsClient({
 
   return (
     <div className="grid gap-8">
-      <div className="border border-border-gray bg-white p-4 shadow-[0_18px_50px_rgba(4,43,76,0.06)] sm:p-5 md:p-6">
+      <div className="rounded-lg border border-border-gray bg-white p-4 shadow-[0_18px_50px_rgba(4,43,76,0.06)] sm:p-5 md:p-6">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-4 border-b border-border-gray pb-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="max-w-2xl">
@@ -95,7 +96,11 @@ export function AdminProjectsClient({
               type="button"
               onClick={resetFilters}
               disabled={!hasActiveFilters}
-              className="inline-flex min-h-10 w-fit items-center justify-center border border-border-gray px-4 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary-navy transition hover:border-primary-navy hover:bg-cool-mist disabled:cursor-not-allowed disabled:opacity-45 sm:min-h-11 sm:px-5"
+              className={adminButton(
+                "secondary",
+                "compact",
+                "w-fit disabled:cursor-not-allowed disabled:opacity-45 sm:min-h-11 sm:px-5",
+              )}
             >
               Reset filters
             </button>
@@ -135,7 +140,7 @@ export function AdminProjectsClient({
           />
         </>
       ) : (
-        <div className="border border-border-gray bg-white p-10 text-center">
+        <div className="rounded-lg border border-border-gray bg-white p-10 text-center">
           <p className="font-display text-3xl text-charcoal-text">
             No projects match these filters.
           </p>
@@ -145,7 +150,7 @@ export function AdminProjectsClient({
           <button
             type="button"
             onClick={resetFilters}
-            className="mt-8 min-h-11 bg-primary-navy px-6 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-steel-blue"
+            className={adminButton("primary", "large", "mt-8")}
           >
             Reset filters
           </button>

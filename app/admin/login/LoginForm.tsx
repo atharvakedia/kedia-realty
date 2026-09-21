@@ -8,6 +8,7 @@ import {
   hasSupabaseEnv,
 } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { adminButton } from "@/lib/admin-ui";
 
 type LoginFormProps = {
   setupMissing?: boolean;
@@ -55,13 +56,13 @@ export function LoginForm({ setupMissing, unauthorized }: LoginFormProps) {
   return (
     <form onSubmit={onSubmit} className="mt-8 grid gap-5">
       {setupMissing ? (
-        <div className="border border-border-gray bg-cool-mist p-4 text-sm leading-7 text-primary-navy">
+        <div className="rounded-lg border border-border-gray bg-cool-mist p-4 text-sm leading-7 text-primary-navy">
           Supabase is not configured yet. Add the required environment variables
           before using protected admin routes.
         </div>
       ) : null}
       {unauthorized ? (
-        <div className="border border-border-gray bg-cool-mist p-4 text-sm leading-7 text-primary-navy">
+        <div className="rounded-lg border border-border-gray bg-cool-mist p-4 text-sm leading-7 text-primary-navy">
           Your account needs an admin profile before it can access the CMS.
         </div>
       ) : null}
@@ -79,7 +80,7 @@ export function LoginForm({ setupMissing, unauthorized }: LoginFormProps) {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           required
-          className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
+          className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
         />
       </label>
       <label className="grid gap-2">
@@ -91,14 +92,18 @@ export function LoginForm({ setupMissing, unauthorized }: LoginFormProps) {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
-          className="min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
+          className="rounded-lg min-h-12 border border-border-gray bg-white px-4 text-sm text-charcoal-text outline-none transition focus:border-primary-navy"
         />
       </label>
       <button
         type="submit"
         disabled={!isConfigured || isPending}
         aria-busy={isPending}
-        className="min-h-12 bg-primary-navy px-6 text-sm font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-60"
+        className={adminButton(
+          "primary",
+          "large",
+          "disabled:cursor-wait disabled:opacity-60",
+        )}
       >
         <span className="inline-flex items-center justify-center gap-2">
           {isPending ? <LoadingSpinner /> : null}
