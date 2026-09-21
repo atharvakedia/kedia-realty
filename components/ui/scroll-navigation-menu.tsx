@@ -196,6 +196,7 @@ export const Component: React.FC<ScrollNavbarProps> = ({
                   width={260}
                   height={147}
                   loading="eager"
+                  sizes="(min-width: 1024px) 128px, (min-width: 768px) 114px, 100px"
                   className={cn(
                     "h-14 w-auto object-contain md:h-16 lg:h-[4.5rem]",
                     isHome && "brightness-0 invert",

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AdminProjectsClient } from "@/components/admin/AdminProjectsClient";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { getAdminProjects, requireAdmin } from "@/lib/projects";
+import { adminButton } from "@/lib/admin-ui";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ export default async function AdminProjectsPage() {
       <div className="mb-6 flex justify-end">
         <Link
           href="/admin/projects/new"
-          className="inline-flex min-h-11 items-center justify-center bg-primary-navy px-6 text-sm font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-steel-blue"
+          className={adminButton("primary", "large")}
         >
           New Project
         </Link>

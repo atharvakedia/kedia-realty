@@ -42,7 +42,8 @@ export default function AboutPage() {
               src={image}
               alt="Premium residential interior representing Kedia Group's planned real estate approach"
               fill
-              loading="eager"
+              preload
+              fetchPriority="high"
               sizes="100vw"
               className="object-cover"
             />

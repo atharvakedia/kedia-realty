@@ -8,6 +8,8 @@ import type { Project } from "@/lib/types";
 
 type ProjectCardProps = {
   project: Project;
+  /** Use "h2" when the card sits directly under the page h1 (e.g. /properties). */
+  headingLevel?: "h2" | "h3";
 };
 
 function formatAcres(value: string) {
@@ -20,8 +22,9 @@ function formatAcres(value: string) {
   return /[a-z]/i.test(trimmed) ? trimmed : `${trimmed} Acres`;
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, headingLevel = "h3" }: ProjectCardProps) {
   const reduceMotion = useReducedMotion();
+  const Heading = headingLevel;
 
   return (
     <motion.article
@@ -47,9 +50,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary-navy">
             {project.type}
           </p>
-          <h3 className="mt-3 font-display text-2xl leading-tight text-charcoal-text">
+          <Heading className="mt-3 font-display text-2xl leading-tight text-charcoal-text">
             {project.title}
-          </h3>
+          </Heading>
           <p className="mt-2 text-sm leading-6 text-slate-gray">
             {project.location} / {project.region}
           </p>

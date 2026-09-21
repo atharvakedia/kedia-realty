@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { AdminProjectSummary } from "@/lib/types";
+import { adminButton } from "@/lib/admin-ui";
 
 type ProjectTableProps = {
   projects: AdminProjectSummary[];
@@ -9,7 +10,7 @@ type ProjectTableProps = {
 export function ProjectTable({ projects }: ProjectTableProps) {
   if (projects.length === 0) {
     return (
-      <div className="border border-border-gray bg-white p-10 text-center">
+      <div className="rounded-lg border border-border-gray bg-white p-10 text-center">
         <p className="font-display text-3xl text-charcoal-text">
           No projects yet.
         </p>
@@ -21,7 +22,7 @@ export function ProjectTable({ projects }: ProjectTableProps) {
   }
 
   return (
-    <div className="overflow-x-auto border border-border-gray bg-white">
+    <div className="rounded-lg overflow-x-auto border border-border-gray bg-white">
       <table className="min-w-[62rem] w-full border-collapse text-left">
         <thead>
           <tr className="border-b border-border-gray bg-cool-mist">
@@ -33,13 +34,18 @@ export function ProjectTable({ projects }: ProjectTableProps) {
               "Published",
               "Featured",
               "Updated",
-              "",
+              "Actions",
             ].map((heading) => (
               <th
                 key={heading}
+                scope="col"
                 className="px-4 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy"
               >
-                {heading}
+                {heading === "Actions" ? (
+                  <span className="sr-only">{heading}</span>
+                ) : (
+                  heading
+                )}
               </th>
             ))}
           </tr>
@@ -62,15 +68,16 @@ export function ProjectTable({ projects }: ProjectTableProps) {
               </td>
               <td className="px-4 py-4 text-sm text-slate-gray">
                 {project.updatedAt
-                  ? new Intl.DateTimeFormat("en", {
+                  ? new Intl.DateTimeFormat("en-IN", {
                       dateStyle: "medium",
+                      timeZone: "Asia/Kolkata",
                     }).format(new Date(project.updatedAt))
                   : "—"}
               </td>
               <td className="px-4 py-4 text-right">
                 <Link
                   href={`/admin/projects/${project.id}/edit`}
-                  className="inline-flex min-h-10 items-center justify-center border border-primary-navy bg-primary-navy px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-sm shadow-deep-navy/10 transition hover:bg-steel-blue"
+                  className={adminButton("primary", "compact")}
                 >
                   Edit
                 </Link>

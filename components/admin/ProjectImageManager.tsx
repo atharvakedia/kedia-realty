@@ -14,6 +14,7 @@ import {
   uniqueNonEmptyValues,
 } from "@/lib/storage";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { adminButton } from "@/lib/admin-ui";
 
 type ProjectImageManagerProps = {
   initialImages?: string[];
@@ -137,7 +138,11 @@ export function ProjectImageManager({
             onClick={() => inputRef.current?.click()}
             disabled={isUploading || !canUpload}
             aria-busy={isUploading}
-            className="min-h-11 border border-primary-navy bg-primary-navy px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-50"
+            className={adminButton(
+              "primary",
+              "default",
+              "disabled:cursor-wait disabled:opacity-50",
+            )}
           >
             <span className="inline-flex items-center justify-center gap-2">
               {isUploading ? <LoadingSpinner /> : null}
@@ -150,7 +155,7 @@ export function ProjectImageManager({
           type="file"
           accept="image/*"
           multiple
-          className="sr-only"
+          className="rounded-lg sr-only"
           onChange={(event) => uploadFiles(event.target.files)}
         />
         {!canUpload ? (
@@ -166,7 +171,7 @@ export function ProjectImageManager({
       {images.length ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {images.map((image, index) => (
-            <div key={image} className="border border-border-gray bg-white p-3">
+            <div key={image} className="rounded-lg border border-border-gray bg-white p-3">
               <div className="relative aspect-[16/10] overflow-hidden bg-cool-mist">
                 <Image
                   src={image}
@@ -203,7 +208,7 @@ export function ProjectImageManager({
           ))}
         </div>
       ) : (
-        <div className="border border-border-gray bg-white p-6 text-sm leading-7 text-slate-gray">
+        <div className="rounded-lg border border-border-gray bg-white p-6 text-sm leading-7 text-slate-gray">
           No project images uploaded yet. Add at least one image before saving.
         </div>
       )}

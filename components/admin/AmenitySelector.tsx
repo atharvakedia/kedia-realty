@@ -103,7 +103,7 @@ export function AmenitySelector({
                   return (
                     <label
                       key={option.label}
-                      className="flex cursor-pointer items-center gap-3 border border-border-gray bg-white p-3 transition hover:border-primary-navy hover:bg-cool-mist"
+                      className="rounded-lg flex cursor-pointer items-center gap-3 border border-border-gray bg-white p-3 transition hover:border-primary-navy hover:bg-cool-mist"
                     >
                       <input
                         type="checkbox"

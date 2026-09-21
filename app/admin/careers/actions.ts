@@ -120,5 +120,5 @@ export async function deleteCareerRoleAction(formData: FormData) {
 
 export async function deleteCareerApplicationAction(formData: FormData) {
   await deleteCareerApplication(text(formData, "id"));
-  redirect("/admin/careers/applications");
+  redirect("/admin/careers?tab=applications");
 }

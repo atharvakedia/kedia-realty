@@ -105,7 +105,7 @@ export function ProjectsListingClient({ projects }: ProjectsListingClientProps) 
         <>
           <div className="mt-10 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {paginatedProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} headingLevel="h2" />
             ))}
           </div>
 

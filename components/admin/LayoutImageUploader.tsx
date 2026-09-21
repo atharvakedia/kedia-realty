@@ -13,6 +13,7 @@ import {
   storagePathFromPublicUrl,
 } from "@/lib/storage";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { adminButton } from "@/lib/admin-ui";
 
 type LayoutImageUploaderProps = {
   value: string;
@@ -120,7 +121,11 @@ export function LayoutImageUploader({
           onClick={() => inputRef.current?.click()}
           disabled={isUploading || !canUpload}
           aria-busy={isUploading}
-          className="min-h-10 border border-primary-navy bg-primary-navy px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-steel-blue disabled:cursor-wait disabled:opacity-50"
+          className={adminButton(
+            "primary",
+            "compact",
+            "disabled:cursor-wait disabled:opacity-50",
+          )}
         >
           <span className="inline-flex items-center justify-center gap-2">
             {isUploading ? <LoadingSpinner /> : null}
@@ -132,12 +137,12 @@ export function LayoutImageUploader({
         ref={inputRef}
         type="file"
         accept="image/*"
-        className="sr-only"
+        className="rounded-lg sr-only"
         onChange={(event) => uploadFile(event.target.files?.[0])}
       />
 
       {value ? (
-        <div className="border border-border-gray bg-white p-3">
+        <div className="rounded-lg border border-border-gray bg-white p-3">
           <div className="relative aspect-[16/10] overflow-hidden bg-cool-mist">
             <Image
               src={value}

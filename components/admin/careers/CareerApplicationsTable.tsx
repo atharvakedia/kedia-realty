@@ -1,6 +1,7 @@
 import { deleteCareerApplicationAction } from "@/app/admin/careers/actions";
 import { AdminSubmitButton } from "@/components/admin/AdminSubmitButton";
 import type { CareerApplication } from "@/lib/types";
+import { adminBadge, adminButton } from "@/lib/admin-ui";
 
 export function CareerApplicationsTable({
   applications,
@@ -9,7 +10,7 @@ export function CareerApplicationsTable({
 }) {
   if (applications.length === 0) {
     return (
-      <div className="border border-border-gray bg-white p-8 text-sm leading-7 text-slate-gray">
+      <div className="rounded-lg border border-border-gray bg-white p-8 text-sm leading-7 text-slate-gray">
         No applications have been submitted yet.
       </div>
     );
@@ -18,16 +19,14 @@ export function CareerApplicationsTable({
   return (
     <div className="grid gap-5">
       {applications.map((application) => (
-        <article key={application.id} className="border border-border-gray bg-white p-6">
+        <article key={application.id} className="rounded-lg border border-border-gray bg-white p-6">
           <div className="grid gap-5 lg:grid-cols-[1fr_auto]">
             <div>
               <div className="flex flex-wrap items-center gap-3">
                 <h2 className="font-display text-2xl text-charcoal-text">
                   {application.candidateName}
                 </h2>
-                <span className="border border-border-gray px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-primary-navy">
-                  {application.status}
-                </span>
+                <span className={adminBadge}>{application.status}</span>
               </div>
               <p className="mt-2 text-sm leading-7 text-slate-gray">
                 Applying for {application.roleTitle}
@@ -60,6 +59,7 @@ export function CareerApplicationsTable({
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
+                      timeZone: "Asia/Kolkata",
                     }).format(new Date(application.createdAt))}
                   </dd>
                 </div>
@@ -74,7 +74,7 @@ export function CareerApplicationsTable({
                 href={application.resumeUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex min-h-11 items-center justify-center border border-primary-navy px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary-navy transition hover:bg-primary-navy hover:text-white"
+                className={adminButton("outline")}
               >
                 View resume
               </a>
@@ -83,7 +83,7 @@ export function CareerApplicationsTable({
                   href={application.portfolioUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-11 items-center justify-center border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-primary-navy hover:text-primary-navy"
+                  className={adminButton("muted")}
                 >
                   Portfolio
                 </a>
@@ -93,7 +93,7 @@ export function CareerApplicationsTable({
                 <AdminSubmitButton
                   label="Delete"
                   pendingLabel="Deleting"
-                  className="inline-flex min-h-11 w-full items-center justify-center border border-border-gray px-4 text-xs font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-red-700 hover:text-red-700"
+                  className={adminButton("danger", "default", "w-full")}
                 />
               </form>
             </div>
