@@ -84,6 +84,32 @@ summary:focus-visible,
   outline-offset: 3px;
 }
 
+/* Entrance reveal for above-the-fold hero copy. Pure CSS so the LCP text
+   paints immediately on first render instead of waiting for framer-motion
+   to hydrate (which was adding ~1.6s of element render delay on mobile). */
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-reveal {
+  animation: hero-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal {
+    animation: none;
+  }
+}
+
 @keyframes amenity-marquee {
   from {
     transform: translateX(0);

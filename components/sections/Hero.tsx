@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 
 const heroImage = "/home-page-hero.webp";
 
@@ -68,10 +68,6 @@ function HeroWordCarousel({ reduceMotion }: { reduceMotion: boolean }) {
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
-  const item = {
-    hidden: { opacity: 0, y: 18 },
-    show: { opacity: 1, y: 0 },
-  };
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-architectural-black text-white">
@@ -79,7 +75,8 @@ export function Hero() {
         src={heroImage}
         alt="Kedia Group real estate projects across Jaipur and Rajasthan"
         fill
-        loading="eager"
+        preload
+        fetchPriority="high"
         sizes="100vw"
         className="object-cover"
       />
@@ -87,35 +84,30 @@ export function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_62%_22%,rgba(47,111,159,0.24),transparent_38%)]" />
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-10 pt-36 md:px-8 md:pb-12 md:pt-40 lg:pb-16">
-        <motion.div
-          initial={reduceMotion ? false : "hidden"}
-          animate="show"
-          transition={{ staggerChildren: 0.12 }}
-          className="relative z-10 max-w-5xl"
-        >
-          <motion.p
-            variants={item}
-            className="text-xs font-semibold uppercase tracking-[0.3em] text-white/68"
+        <div className="relative z-10 max-w-5xl">
+          <p
+            className="hero-reveal text-xs font-semibold uppercase tracking-[0.3em] text-white/68"
+            style={{ "--reveal-delay": "0s" } as CSSProperties}
           >
             At Kedia Group
-          </motion.p>
-          <motion.h1
-            variants={item}
-            className="mt-6 max-w-5xl font-display text-6xl leading-[0.9] text-white sm:text-7xl lg:text-8xl xl:text-9xl"
+          </p>
+          <h1
+            className="hero-reveal mt-6 max-w-5xl font-display text-6xl leading-[0.9] text-white sm:text-7xl lg:text-8xl xl:text-9xl"
+            style={{ "--reveal-delay": "0.12s" } as CSSProperties}
           >
             We Build <HeroWordCarousel reduceMotion={Boolean(reduceMotion)} />
-          </motion.h1>
-          <motion.p
-            variants={item}
-            className="mt-7 max-w-2xl text-sm leading-6 text-white/76 md:text-lg md:leading-8"
+          </h1>
+          <p
+            className="hero-reveal mt-7 max-w-2xl text-sm leading-6 text-white/76 md:text-lg md:leading-8"
+            style={{ "--reveal-delay": "0.24s" } as CSSProperties}
           >
             Kedia Group develops disciplined real estate formats across
             townships, apartments, villas, commercial spaces, farm developments,
             and industrial townships.
-          </motion.p>
-          <motion.div
-            variants={item}
-            className="mt-9 flex flex-col gap-3 sm:flex-row"
+          </p>
+          <div
+            className="hero-reveal mt-9 flex flex-col gap-3 sm:flex-row"
+            style={{ "--reveal-delay": "0.36s" } as CSSProperties}
           >
             {/* <Button
               href="/properties"
@@ -130,7 +122,7 @@ export function Hero() {
             >
               Our Approach
             </Button> */}
-          </motion.div>
+          </div>
 
           {/* <motion.div
             variants={item}
@@ -151,7 +143,7 @@ export function Hero() {
               </div>
             ))}
           </motion.div>*/}
-        </motion.div>
+        </div>
 
         {/* <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 18 }}

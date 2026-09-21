@@ -14,6 +14,7 @@ export function Footer() {
               alt="Kedia Group"
               width={260}
               height={147}
+              sizes="(min-width: 768px) 208px, 160px"
               className="h-auto w-40 object-contain md:w-52"
             />
           </Link>

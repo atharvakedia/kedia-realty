@@ -47,6 +47,7 @@ export function CareerRoleTable({ roles }: { roles: CareerRole[] }) {
                         day: "2-digit",
                         month: "short",
                         year: "numeric",
+                        timeZone: "Asia/Kolkata",
                       }).format(new Date(role.createdAt))
                     : "New"}
                 </td>

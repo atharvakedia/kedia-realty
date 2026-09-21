@@ -60,6 +60,7 @@ export function CareerApplicationsTable({
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
+                      timeZone: "Asia/Kolkata",
                     }).format(new Date(application.createdAt))}
                   </dd>
                 </div>

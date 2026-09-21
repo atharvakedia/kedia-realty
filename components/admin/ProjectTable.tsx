@@ -33,13 +33,18 @@ export function ProjectTable({ projects }: ProjectTableProps) {
               "Published",
               "Featured",
               "Updated",
-              "",
+              "Actions",
             ].map((heading) => (
               <th
                 key={heading}
+                scope="col"
                 className="px-4 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy"
               >
-                {heading}
+                {heading === "Actions" ? (
+                  <span className="sr-only">{heading}</span>
+                ) : (
+                  heading
+                )}
               </th>
             ))}
           </tr>
@@ -62,8 +67,9 @@ export function ProjectTable({ projects }: ProjectTableProps) {
               </td>
               <td className="px-4 py-4 text-sm text-slate-gray">
                 {project.updatedAt
-                  ? new Intl.DateTimeFormat("en", {
+                  ? new Intl.DateTimeFormat("en-IN", {
                       dateStyle: "medium",
+                      timeZone: "Asia/Kolkata",
                     }).format(new Date(project.updatedAt))
                   : "—"}
               </td>
