@@ -47,7 +47,6 @@ export type Project = {
   reraNumber: string;
   launchDate: string;
   priceLabel: string;
-  areaLabel: string;
   description: string;
   highlights?: string[];
   amenities: string[];
@@ -81,7 +80,6 @@ export type ProjectRow = {
   rera_number: string;
   launch_date: string;
   price_label: string;
-  area_label: string;
   description: string;
   amenities: string[];
   map_embed_url: string | null;

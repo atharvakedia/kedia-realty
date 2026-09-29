@@ -81,8 +81,7 @@ export function ProjectCard({ project, headingLevel = "h3" }: ProjectCardProps) 
             </div>
           </div>
 
-          <div className="mt-6 flex items-center justify-between gap-4">
-            <span className="text-sm text-slate-gray">{project.areaLabel}</span>
+          <div className="mt-6 flex items-center justify-end">
             <span className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-navy transition group-hover:text-steel-blue">
               View Project
             </span>

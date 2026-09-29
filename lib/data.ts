@@ -48,7 +48,6 @@ export const projects: Project[] = [
     reraNumber: "RAJ/P/2025/3184",
     launchDate: "March 2025",
     priceLabel: "Plots from ₹38 Lakh",
-    areaLabel: "900 - 2,400 sq ft",
     description:
       "A planned residential township designed around broad internal roads, everyday conveniences, landscaped open spaces, and a clear development framework for long-term value creation.",
     highlights: [
@@ -113,7 +112,6 @@ export const projects: Project[] = [
     reraNumber: "RAJ/P/2023/2461",
     launchDate: "August 2023",
     priceLabel: "Commercial units from ₹52 Lakh",
-    areaLabel: "420 - 2,100 sq ft",
     description:
       "A high-visibility commercial development planned for retail, boutique offices, service-led businesses, and neighborhood-scale customer movement.",
     highlights: [
@@ -166,7 +164,6 @@ export const projects: Project[] = [
     reraNumber: "RAJ/P/2025/3262",
     launchDate: "June 2025",
     priceLabel: "Villas from ₹1.35 Cr",
-    areaLabel: "2,200 - 3,600 sq ft",
     description:
       "A villa community shaped around controlled density, landscaped streets, and contemporary residential formats for families seeking independent living within a managed development.",
     highlights: [
@@ -217,7 +214,6 @@ export const projects: Project[] = [
     reraNumber: "RAJ/P/2021/1678",
     launchDate: "January 2021",
     priceLabel: "Apartments from ₹64 Lakh",
-    areaLabel: "1,050 - 1,850 sq ft",
     description:
       "A completed apartment development with efficient unit planning, established amenities, and strong neighborhood connectivity for everyday urban living.",
     highlights: [
@@ -270,7 +266,6 @@ export const projects: Project[] = [
     reraNumber: "RAJ/P/2024/2875",
     launchDate: "November 2024",
     priceLabel: "Farm plots from ₹42 Lakh",
-    areaLabel: "6,000 - 12,000 sq ft",
     description:
       "A managed farmhouse development planned for weekend living, agricultural leisure, and land ownership with organized infrastructure and access.",
     highlights: [
@@ -321,7 +316,6 @@ export const projects: Project[] = [
     reraNumber: "RAJ/P/2025/3311",
     launchDate: "September 2025",
     priceLabel: "Industrial plots on request",
-    areaLabel: "10,000 - 80,000 sq ft",
     description:
       "An industrial township planned for warehousing, light manufacturing, logistics, and ancillary commercial use along a high-growth industrial corridor.",
     highlights: [

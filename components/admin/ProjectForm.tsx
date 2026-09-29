@@ -291,12 +291,6 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
             defaultValue={project?.priceLabel}
             placeholder="₹38 lakh onwards"
           />
-          <Field
-            label="Area label"
-            name="areaLabel"
-            defaultValue={project?.areaLabel}
-            placeholder="Plots from 111 sq. yd. / Sold Out"
-          />
         </div>
       </section>
 

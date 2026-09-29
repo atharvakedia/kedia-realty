@@ -46,7 +46,6 @@ create table public.projects (
   rera_number text not null,
   launch_date text not null,
   price_label text not null,
-  area_label text not null,
   description text not null,
   amenities text[] not null default '{}',
   map_embed_url text,
@@ -463,13 +462,13 @@ using (
 -- Optional starter content matching the current website fallback projects.
 insert into public.projects (
   title, slug, type, status, city, region, size_min_sq_yd, size_max_sq_yd, total_units,
-  rera_number, launch_date, price_label, area_label, description, amenities,
+  rera_number, launch_date, price_label, description, amenities,
   map_embed_url, is_published, is_featured, display_order
 ) values
 (
   'Kedia City', 'kedia-city', 'Residential Township', 'Underway',
   'Jaipur', 'Ajmer Road', 100, 267, 1250, 'RAJ/P/2025/3184', 'March 2025',
-  'Plots from ₹38 Lakh', '900 - 2,400 sq ft',
+  'Plots from ₹38 Lakh',
   'A planned residential township designed around broad internal roads, everyday conveniences, landscaped open spaces, and a clear development framework for long-term value creation.',
   array['Clubhouse','Children''s Play Area','Jogging Track','Temple Plaza','Gated Entry','Rainwater Harvesting'],
   'https://www.google.com/maps?q=Ajmer%20Road%20Jaipur%20Rajasthan&output=embed',
@@ -478,7 +477,7 @@ insert into public.projects (
 (
   'Kedia Square', 'kedia-square', 'Commercial', 'Ready',
   'Jaipur', 'Vaishali Nagar', 47, 233, 186, 'RAJ/P/2023/2461', 'August 2023',
-  'Commercial units from ₹52 Lakh', '420 - 2,100 sq ft',
+  'Commercial units from ₹52 Lakh',
   'A high-visibility commercial development planned for retail, boutique offices, service-led businesses, and neighborhood-scale customer movement.',
   array['Basement Parking','High-Speed Elevators','Power Backup','CCTV Surveillance','Fire Safety Systems','Common Washrooms'],
   'https://www.google.com/maps?q=Vaishali%20Nagar%20Jaipur%20Rajasthan&output=embed',
@@ -487,7 +486,7 @@ insert into public.projects (
 (
   'Kedia Greens Villas', 'kedia-greens-villas', 'Villas', 'Underway',
   'Udaipur', 'Nathdwara Road', 244, 400, 96, 'RAJ/P/2025/3262', 'June 2025',
-  'Villas from ₹1.35 Cr', '2,200 - 3,600 sq ft',
+  'Villas from ₹1.35 Cr',
   'A villa community shaped around controlled density, landscaped streets, and contemporary residential formats for families seeking independent living within a managed development.',
   array['Club Lounge','Recreation Deck','Indoor Games','Fitness Studio','Party Lawn','Visitor Parking'],
   null,
@@ -496,7 +495,7 @@ insert into public.projects (
 (
   'Kedia Heights', 'kedia-heights', 'Apartments', 'Completed',
   'Jaipur', 'Mansarovar Extension', 117, 206, 420, 'RAJ/P/2021/1678', 'January 2021',
-  'Apartments from ₹64 Lakh', '1,050 - 1,850 sq ft',
+  'Apartments from ₹64 Lakh',
   'A completed apartment development with efficient unit planning, established amenities, and strong neighborhood connectivity for everyday urban living.',
   array['Community Hall','Fitness Studio','Children''s Play Area','Landscaped Gardens','Power Backup','Controlled Access'],
   'https://www.google.com/maps?q=Mansarovar%20Extension%20Jaipur%20Rajasthan&output=embed',
@@ -505,7 +504,7 @@ insert into public.projects (
 (
   'Kedia Agro Farms', 'kedia-agro-farms', 'Farmhouses', 'Ready',
   'Alwar', 'Sariska Road', 667, 1333, 72, 'RAJ/P/2024/2875', 'November 2024',
-  'Farm plots from ₹42 Lakh', '6,000 - 12,000 sq ft',
+  'Farm plots from ₹42 Lakh',
   'A managed farmhouse development planned for weekend living, agricultural leisure, and land ownership with organized infrastructure and access.',
   array['Gated Entry','Wide Internal Roads','Water Provision','Plantation Zones','Common Greens','Maintenance Support'],
   null,
@@ -514,7 +513,7 @@ insert into public.projects (
 (
   'Kedia Industrial Park', 'kedia-industrial-park', 'Industrial Township', 'Underway',
   'Neemrana', 'NH-48 Corridor', 1111, 8889, 214, 'RAJ/P/2025/3311', 'September 2025',
-  'Industrial plots on request', '10,000 - 80,000 sq ft',
+  'Industrial plots on request',
   'An industrial township planned for warehousing, light manufacturing, logistics, and ancillary commercial use along a high-growth industrial corridor.',
   array['Wide Internal Roads','Power Infrastructure','Drainage Planning','Gated Entry','Weighbridge Provision','Admin Support Zone'],
   'https://www.google.com/maps?q=Neemrana%20Rajasthan%20NH%2048&output=embed',
