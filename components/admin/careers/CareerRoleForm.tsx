@@ -70,7 +70,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
   return (
     <form action={formAction} className="grid gap-8">
       {state.error ? (
-        <div className="border border-red-200 bg-red-50 p-4 text-sm leading-7 text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm leading-7 text-red-700">
           {state.error}
         </div>
       ) : null}
@@ -166,7 +166,7 @@ export function CareerRoleForm({ action, role, submitLabel }: CareerRoleFormProp
       </section>
 
       <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
-        <label className="flex items-start gap-3 border border-border-gray p-4">
+        <label className="flex items-start gap-3 rounded-lg border border-border-gray p-4">
           <input
             name="isOpen"
             type="checkbox"

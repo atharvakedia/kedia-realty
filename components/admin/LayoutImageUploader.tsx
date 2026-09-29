@@ -143,7 +143,7 @@ export function LayoutImageUploader({
 
       {value ? (
         <div className="rounded-lg border border-border-gray bg-white p-3">
-          <div className="relative aspect-[16/10] overflow-hidden bg-cool-mist">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-cool-mist">
             <Image
               src={value}
               alt={`Layout ${layoutIndex + 1} image preview`}
@@ -155,13 +155,13 @@ export function LayoutImageUploader({
           <button
             type="button"
             onClick={removeImage}
-            className="mt-3 min-h-9 border border-border-gray px-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-red-300 hover:text-red-700"
+            className="mt-3 min-h-9 rounded-lg border border-border-gray px-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-red-300 hover:text-red-700"
           >
             Delete image
           </button>
         </div>
       ) : (
-        <div className="border border-dashed border-border-gray bg-white p-5 text-sm leading-7 text-slate-gray">
+        <div className="rounded-lg border border-dashed border-border-gray bg-white p-5 text-sm leading-7 text-slate-gray">
           No layout image uploaded yet.
         </div>
       )}

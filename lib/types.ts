@@ -39,7 +39,10 @@ export type Project = {
   status: ProjectStatus;
   region: string;
   location: string;
-  totalArea: string;
+  /** Smallest plot/unit size in square yards. Empty when not set. */
+  sizeMin: string;
+  /** Largest plot/unit size in square yards. Empty when not set. */
+  sizeMax: string;
   totalUnits: string;
   reraNumber: string;
   launchDate: string;
@@ -72,7 +75,8 @@ export type ProjectRow = {
   status: string;
   city: string;
   region: string;
-  total_area_acres: number;
+  size_min_sq_yd: number | null;
+  size_max_sq_yd: number | null;
   total_units: number;
   rera_number: string;
   launch_date: string;

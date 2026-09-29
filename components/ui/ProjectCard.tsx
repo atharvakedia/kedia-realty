@@ -5,22 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { Project } from "@/lib/types";
+import { formatSizeRange } from "@/lib/utils";
 
 type ProjectCardProps = {
   project: Project;
   /** Use "h2" when the card sits directly under the page h1 (e.g. /properties). */
   headingLevel?: "h2" | "h3";
 };
-
-function formatAcres(value: string) {
-  const trimmed = value.trim();
-
-  if (!trimmed) {
-    return "—";
-  }
-
-  return /[a-z]/i.test(trimmed) ? trimmed : `${trimmed} Acres`;
-}
 
 export function ProjectCard({ project, headingLevel = "h3" }: ProjectCardProps) {
   const reduceMotion = useReducedMotion();
@@ -65,9 +56,9 @@ export function ProjectCard({ project, headingLevel = "h3" }: ProjectCardProps) 
               </span>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-slate-gray">Total Area</span>
+              <span className="text-slate-gray">Sizes</span>
               <span className="text-right font-medium text-charcoal-text">
-                {formatAcres(project.totalArea)}
+                {formatSizeRange(project.sizeMin, project.sizeMax)}
               </span>
             </div>
             <div className="flex items-center justify-between gap-4">

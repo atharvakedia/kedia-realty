@@ -163,7 +163,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
   return (
     <form action={formAction} className="grid gap-8">
       {state.error ? (
-        <div className="border border-red-200 bg-red-50 p-4 text-sm leading-7 text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm leading-7 text-red-700">
           {state.error}
         </div>
       ) : null}
@@ -247,13 +247,22 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
         <h2 className="font-display text-3xl text-charcoal-text">Project facts</h2>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <Field
-            label="Total area (acres)"
-            name="totalArea"
+            label="Minimum size (sq yd)"
+            name="sizeMin"
             type="number"
             min="0"
             step="0.01"
-            defaultValue={numericText(project?.totalArea)}
-            placeholder="12.5"
+            defaultValue={numericText(project?.sizeMin)}
+            placeholder="100"
+          />
+          <Field
+            label="Maximum size (sq yd)"
+            name="sizeMax"
+            type="number"
+            min="0"
+            step="0.01"
+            defaultValue={numericText(project?.sizeMax)}
+            placeholder="250"
           />
           <Field
             label="Total units"
@@ -325,7 +334,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
 
         <div className="mt-6 grid gap-5">
           {layouts.map((layout, index) => (
-            <div key={index} className="border border-border-gray bg-soft-white p-5">
+            <div key={index} className="rounded-lg border border-border-gray bg-soft-white p-5">
               <div className="flex items-center justify-between gap-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-navy">
                   Layout {index + 1}
@@ -379,7 +388,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
       <section className="rounded-lg border border-border-gray bg-white p-6 md:p-8">
         <h2 className="font-display text-3xl text-charcoal-text">Publishing</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <label className="flex items-start gap-3 border border-border-gray p-4">
+          <label className="flex items-start gap-3 rounded-lg border border-border-gray p-4">
             <input
               name="isPublished"
               type="checkbox"
@@ -395,7 +404,7 @@ export function ProjectForm({ action, project, submitLabel }: ProjectFormProps) 
               </span>
             </span>
           </label>
-          <label className="flex items-start gap-3 border border-border-gray p-4">
+          <label className="flex items-start gap-3 rounded-lg border border-border-gray p-4">
             <input
               name="isFeatured"
               type="checkbox"

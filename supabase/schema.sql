@@ -40,7 +40,8 @@ create table public.projects (
   status text not null,
   city text not null,
   region text not null,
-  total_area_acres numeric(10, 2) not null check (total_area_acres >= 0),
+  size_min_sq_yd numeric(10, 2) check (size_min_sq_yd >= 0),
+  size_max_sq_yd numeric(10, 2) check (size_max_sq_yd >= 0),
   total_units integer not null check (total_units >= 0),
   rera_number text not null,
   launch_date text not null,
@@ -53,7 +54,9 @@ create table public.projects (
   is_featured boolean not null default false,
   display_order integer not null default 0,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint projects_size_range_check
+    check (size_min_sq_yd is null or size_max_sq_yd is null or size_min_sq_yd <= size_max_sq_yd)
 );
 
 create table public.project_images (
@@ -459,13 +462,13 @@ using (
 
 -- Optional starter content matching the current website fallback projects.
 insert into public.projects (
-  title, slug, type, status, city, region, total_area_acres, total_units,
+  title, slug, type, status, city, region, size_min_sq_yd, size_max_sq_yd, total_units,
   rera_number, launch_date, price_label, area_label, description, amenities,
   map_embed_url, is_published, is_featured, display_order
 ) values
 (
   'Kedia City', 'kedia-city', 'Residential Township', 'Underway',
-  'Jaipur', 'Ajmer Road', 42, 1250, 'RAJ/P/2025/3184', 'March 2025',
+  'Jaipur', 'Ajmer Road', 100, 267, 1250, 'RAJ/P/2025/3184', 'March 2025',
   'Plots from ₹38 Lakh', '900 - 2,400 sq ft',
   'A planned residential township designed around broad internal roads, everyday conveniences, landscaped open spaces, and a clear development framework for long-term value creation.',
   array['Clubhouse','Children''s Play Area','Jogging Track','Temple Plaza','Gated Entry','Rainwater Harvesting'],
@@ -474,7 +477,7 @@ insert into public.projects (
 ),
 (
   'Kedia Square', 'kedia-square', 'Commercial', 'Ready',
-  'Jaipur', 'Vaishali Nagar', 3.8, 186, 'RAJ/P/2023/2461', 'August 2023',
+  'Jaipur', 'Vaishali Nagar', 47, 233, 186, 'RAJ/P/2023/2461', 'August 2023',
   'Commercial units from ₹52 Lakh', '420 - 2,100 sq ft',
   'A high-visibility commercial development planned for retail, boutique offices, service-led businesses, and neighborhood-scale customer movement.',
   array['Basement Parking','High-Speed Elevators','Power Backup','CCTV Surveillance','Fire Safety Systems','Common Washrooms'],
@@ -483,7 +486,7 @@ insert into public.projects (
 ),
 (
   'Kedia Greens Villas', 'kedia-greens-villas', 'Villas', 'Underway',
-  'Udaipur', 'Nathdwara Road', 18, 96, 'RAJ/P/2025/3262', 'June 2025',
+  'Udaipur', 'Nathdwara Road', 244, 400, 96, 'RAJ/P/2025/3262', 'June 2025',
   'Villas from ₹1.35 Cr', '2,200 - 3,600 sq ft',
   'A villa community shaped around controlled density, landscaped streets, and contemporary residential formats for families seeking independent living within a managed development.',
   array['Club Lounge','Recreation Deck','Indoor Games','Fitness Studio','Party Lawn','Visitor Parking'],
@@ -492,7 +495,7 @@ insert into public.projects (
 ),
 (
   'Kedia Heights', 'kedia-heights', 'Apartments', 'Completed',
-  'Jaipur', 'Mansarovar Extension', 7.5, 420, 'RAJ/P/2021/1678', 'January 2021',
+  'Jaipur', 'Mansarovar Extension', 117, 206, 420, 'RAJ/P/2021/1678', 'January 2021',
   'Apartments from ₹64 Lakh', '1,050 - 1,850 sq ft',
   'A completed apartment development with efficient unit planning, established amenities, and strong neighborhood connectivity for everyday urban living.',
   array['Community Hall','Fitness Studio','Children''s Play Area','Landscaped Gardens','Power Backup','Controlled Access'],
@@ -501,7 +504,7 @@ insert into public.projects (
 ),
 (
   'Kedia Agro Farms', 'kedia-agro-farms', 'Farmhouses', 'Ready',
-  'Alwar', 'Sariska Road', 55, 72, 'RAJ/P/2024/2875', 'November 2024',
+  'Alwar', 'Sariska Road', 667, 1333, 72, 'RAJ/P/2024/2875', 'November 2024',
   'Farm plots from ₹42 Lakh', '6,000 - 12,000 sq ft',
   'A managed farmhouse development planned for weekend living, agricultural leisure, and land ownership with organized infrastructure and access.',
   array['Gated Entry','Wide Internal Roads','Water Provision','Plantation Zones','Common Greens','Maintenance Support'],
@@ -510,7 +513,7 @@ insert into public.projects (
 ),
 (
   'Kedia Industrial Park', 'kedia-industrial-park', 'Industrial Township', 'Underway',
-  'Neemrana', 'NH-48 Corridor', 110, 214, 'RAJ/P/2025/3311', 'September 2025',
+  'Neemrana', 'NH-48 Corridor', 1111, 8889, 214, 'RAJ/P/2025/3311', 'September 2025',
   'Industrial plots on request', '10,000 - 80,000 sq ft',
   'An industrial township planned for warehousing, light manufacturing, logistics, and ancillary commercial use along a high-growth industrial corridor.',
   array['Wide Internal Roads','Power Infrastructure','Drainage Planning','Gated Entry','Weighbridge Provision','Admin Support Zone'],

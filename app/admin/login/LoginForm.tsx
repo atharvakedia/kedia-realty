@@ -67,7 +67,7 @@ export function LoginForm({ setupMissing, unauthorized }: LoginFormProps) {
         </div>
       ) : null}
       {error ? (
-        <div className="border border-red-200 bg-red-50 p-4 text-sm leading-7 text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm leading-7 text-red-700">
           {error}
         </div>
       ) : null}

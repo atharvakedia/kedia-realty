@@ -114,7 +114,7 @@ export function AdminProjectsClient({
                 <select
                   value={filter.value}
                   onChange={(event) => filter.onSelect(event.target.value)}
-                  className="min-h-12 w-full border border-border-gray bg-soft-white px-4 text-sm font-semibold text-primary-navy outline-none transition-colors hover:border-silver-shadow focus:border-primary-navy focus:ring-2 focus:ring-primary-navy/15"
+                  className="min-h-12 w-full rounded-lg border border-border-gray bg-soft-white px-4 text-sm font-semibold text-primary-navy outline-none transition-colors hover:border-silver-shadow focus:border-primary-navy focus:ring-2 focus:ring-primary-navy/15"
                 >
                   {[anyProjectFilterValue, ...filter.options].map((option) => (
                     <option key={option} value={option}>

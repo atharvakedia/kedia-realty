@@ -104,7 +104,8 @@ function parseProjectForm(formData: FormData): ProjectFormInput {
       : "Underway",
     region: text(formData, "region"),
     location: text(formData, "location"),
-    totalArea: text(formData, "totalArea"),
+    sizeMin: text(formData, "sizeMin"),
+    sizeMax: text(formData, "sizeMax"),
     totalUnits: text(formData, "totalUnits"),
     reraNumber: text(formData, "reraNumber"),
     launchDate: text(formData, "launchDate"),
@@ -128,7 +129,8 @@ function validateProject(input: ProjectFormInput) {
     ["Slug", input.slug],
     ["Region", input.region],
     ["City", input.location],
-    ["Total area (acres)", input.totalArea],
+    ["Minimum size (sq yd)", input.sizeMin],
+    ["Maximum size (sq yd)", input.sizeMax],
     ["Total units", input.totalUnits],
     ["RERA number", input.reraNumber],
     ["Launch date", input.launchDate],
@@ -142,6 +144,17 @@ function validateProject(input: ProjectFormInput) {
 
   if (missing) {
     return `${missing[0]} is required.`;
+  }
+
+  const sizeMin = Number(input.sizeMin);
+  const sizeMax = Number(input.sizeMax);
+
+  if (!Number.isFinite(sizeMin) || !Number.isFinite(sizeMax) || sizeMin < 0 || sizeMax < 0) {
+    return "Sizes must be positive numbers in square yards.";
+  }
+
+  if (sizeMin > sizeMax) {
+    return "Minimum size cannot be larger than the maximum size.";
   }
 
   if (input.mapEmbedUrl && !isAllowedMapEmbedUrl(input.mapEmbedUrl)) {
