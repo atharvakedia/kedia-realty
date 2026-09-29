@@ -122,7 +122,7 @@ export function ProjectImageManager({
       <input type="hidden" name="mainImage" value={images[0] ?? ""} />
       <input type="hidden" name="gallery" value={galleryValue} />
 
-      <div className="border border-dashed border-border-gray bg-cool-mist p-5">
+      <div className="rounded-lg border border-dashed border-border-gray bg-cool-mist p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-navy">
@@ -172,7 +172,7 @@ export function ProjectImageManager({
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {images.map((image, index) => (
             <div key={image} className="rounded-lg border border-border-gray bg-white p-3">
-              <div className="relative aspect-[16/10] overflow-hidden bg-cool-mist">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-cool-mist">
                 <Image
                   src={image}
                   alt={`Project image ${index + 1}`}
@@ -181,7 +181,7 @@ export function ProjectImageManager({
                   className="object-cover"
                 />
                 {index === 0 ? (
-                  <span className="absolute left-3 top-3 bg-primary-navy px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white">
+                  <span className="absolute left-3 top-3 rounded-md bg-primary-navy px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white">
                     Cover
                   </span>
                 ) : null}
@@ -191,7 +191,7 @@ export function ProjectImageManager({
                   <button
                     type="button"
                     onClick={() => makeCover(image)}
-                    className="min-h-9 border border-border-gray px-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-primary-navy transition hover:border-primary-navy"
+                    className="min-h-9 rounded-lg border border-border-gray px-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-primary-navy transition hover:border-primary-navy"
                   >
                     Make cover
                   </button>
@@ -199,7 +199,7 @@ export function ProjectImageManager({
                 <button
                   type="button"
                   onClick={() => removeImage(image)}
-                  className="min-h-9 border border-border-gray px-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-red-300 hover:text-red-700"
+                  className="min-h-9 rounded-lg border border-border-gray px-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-gray transition hover:border-red-300 hover:text-red-700"
                 >
                   Delete
                 </button>

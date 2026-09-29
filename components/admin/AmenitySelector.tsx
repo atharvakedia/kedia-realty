@@ -90,7 +90,7 @@ export function AmenitySelector({
 
       <div className="grid gap-5">
         {categories.map((category) => (
-          <fieldset key={category} className="border border-border-gray p-4">
+          <fieldset key={category} className="rounded-lg border border-border-gray p-4">
             <legend className="px-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary-navy">
               {category}
             </legend>
@@ -112,7 +112,7 @@ export function AmenitySelector({
                         defaultChecked={selected.has(option.label)}
                         className="size-4 accent-primary-navy"
                       />
-                      <span className="flex size-9 shrink-0 items-center justify-center bg-cool-mist text-primary-navy">
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-cool-mist text-primary-navy">
                         <Icon size={18} strokeWidth={1.8} />
                       </span>
                       <span className="text-sm font-medium text-charcoal-text">

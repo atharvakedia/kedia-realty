@@ -12,22 +12,13 @@ import {
   truncateDescription,
 } from "@/lib/seo";
 import { breadcrumbJsonLd, projectJsonLd } from "@/lib/structured-data";
+import { formatSizeRange } from "@/lib/utils";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export const dynamic = "force-dynamic";
-
-function formatAcres(value: string) {
-  const trimmed = value.trim();
-
-  if (!trimmed) {
-    return "—";
-  }
-
-  return /[a-z]/i.test(trimmed) ? trimmed : `${trimmed} Acres`;
-}
 
 export async function generateMetadata({
   params,
@@ -97,7 +88,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     ["City", project.location],
     ["Region", project.region],
     ["Price", project.priceLabel],
-    ["Total Area", formatAcres(project.totalArea)],
+    ["Sizes", formatSizeRange(project.sizeMin, project.sizeMax)],
     ["Total Units", project.totalUnits],
     ["RERA", project.reraNumber],
     ["Launch", project.launchDate],
