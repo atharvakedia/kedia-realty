@@ -110,7 +110,6 @@ function parseProjectForm(formData: FormData): ProjectFormInput {
     reraNumber: text(formData, "reraNumber"),
     launchDate: text(formData, "launchDate"),
     priceLabel: text(formData, "priceLabel"),
-    areaLabel: text(formData, "areaLabel"),
     description: text(formData, "description"),
     amenities: allText(formData, "amenities"),
     mainImage: text(formData, "mainImage"),
@@ -135,7 +134,6 @@ function validateProject(input: ProjectFormInput) {
     ["RERA number", input.reraNumber],
     ["Launch date", input.launchDate],
     ["Price label", input.priceLabel],
-    ["Area label", input.areaLabel],
     ["Description", input.description],
     ["Main image", input.mainImage],
   ];
